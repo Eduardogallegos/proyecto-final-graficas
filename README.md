@@ -5,5 +5,3 @@
 - Francisco Zavala
 ## Profesor
 - Octavio Navarro
-
-This is a test
