@@ -1,4 +1,4 @@
-# Proyecto Final Gráficas Computacionales (TC3022)
+# Proyecto Final Gráficas Computacionales (TC3022) - ENDLESSHOT
 ## Participantes:
 - Eduardo Gallegos
 - Pedro Cortes
@@ -6,8 +6,7 @@
 ## Profesor
 - Octavio Navarro
 
-## ENDLESSHOT
-Requerimientos:
+### Requerimientos:
     - 1 Nivel con objetos 3D (mesas, sillas, columnas, paredes, etc)
     - Cámara en 1era persona
     - 3 tipos de arma (pica hielo, cuerno de chivo, escuadra)
