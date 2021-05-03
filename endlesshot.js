@@ -1,9 +1,12 @@
+import { FBXLoader } from '../libs/three.js/r125/loaders/FBXLoader.js';
 import * as THREE from '../libs/three.js/r125/three.module.js'
 import { PointerLockControls } from '../libs/three.js/r125/controls/PointerLockControls.js';
 
 let camera, scene, renderer, controls;
 
 let objects = [];
+
+let enemies = [];
 
 let raycaster;
 
@@ -147,11 +150,56 @@ function createScene(canvas)
     let floorGeometry = new THREE.PlaneGeometry( 2000, 2000, 100, 100 );
     let floor = new THREE.Mesh(floorGeometry, new THREE.MeshPhongMaterial({color:0xffffff, map:map, side:THREE.DoubleSide}));
     floor.rotation.x = -Math.PI / 2;
+    floor.position.set(0,-70,0)
     scene.add( floor );
 
     //ASSETS
+    loadObjects();
 
     initPointerLock();
+}
+
+function setVectorValue(vector, configuration, property, initialValues)
+{
+    if(configuration !== undefined)
+    {
+        if(property in configuration)
+        {
+            console.log("setting:", property, "with", configuration[property]);
+            vector.set(configuration[property].x, configuration[property].y, configuration[property].z);
+            return;
+        }
+    }
+
+    console.log("setting:", property, "with", initialValues);
+    vector.set(initialValues.x, initialValues.y, initialValues.z);
+}
+
+async function loadFBX(fbxModelUrl, configuration, arr)
+{
+    try{
+        let object = await new FBXLoader().loadAsync(fbxModelUrl);
+
+        setVectorValue(object.position, configuration, 'position', new THREE.Vector3(0,0,0));
+        setVectorValue(object.scale, configuration, 'scale', new THREE.Vector3(1, 1, 1));
+        setVectorValue(object.rotation, configuration, 'rotation', new THREE.Vector3(0,0,0));
+        
+        arr.push(object);
+
+        scene.add( object );
+    }
+    catch(err)
+    {
+        console.error( err );
+    }
+}
+
+function loadObjects()
+{
+    //loadObj(objModel, {position: new THREE.Vector3(-8, 0, 0), scale: new THREE.Vector3(3, 3, 3), rotation: new THREE.Vector3(0, 1.58, 0) });
+
+    let escenario = loadFBX('./models/3d-model.fbx', {position: new THREE.Vector3(0, -74, -20), scale:new THREE.Vector3(0.05, 0.05, 0.05) }, objects);
+    let enemy = loadFBX('./models/enemy/aaa.FBX', {position: new THREE.Vector3(0, -15, -20), scale:new THREE.Vector3(1, 1, 1) }, enemies);
 }
 
 function update() 
@@ -160,16 +208,17 @@ function update()
 
     if ( controls.isLocked === true ) 
     {
+        moveEnemy();
         raycaster.ray.origin.copy( controls.getObject().position );
         raycaster.ray.origin.y -= 10;
 
         let intersections = raycaster.intersectObjects( objects );
         let onObject = intersections.length > 0;
         let time = Date.now();
-        let delta = ( time - prevTime ) / 1000;
+        let delta = ( time - prevTime ) / 500;
 
-        velocity.x -= velocity.x * 10.0 * delta;
-        velocity.z -= velocity.z * 10.0 * delta;
+        velocity.x -= velocity.x * 1.0 * delta;
+        velocity.z -= velocity.z * 1.0 * delta;
         velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
 
         direction.z = Number( moveForward ) - Number( moveBackward );
@@ -202,7 +251,23 @@ function update()
 
     renderer.render( scene, camera );
 
+
 }
+
+let currentTime = Date.now();
+let duration = 2000; // ms
+
+function moveEnemy(){
+    let now = Date.now();
+    let deltat = now - currentTime;
+    currentTime = now;
+    let fract = deltat / duration;
+    let angle = Math.PI * 2 * fract;
+
+    for(const object of enemies)
+    if(object)
+        object.rotation.y += angle / 2;
+ }
 
 function main()
 {
