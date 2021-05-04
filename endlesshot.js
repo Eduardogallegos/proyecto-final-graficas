@@ -22,7 +22,7 @@ let moveRight = false;
 let canJump = false;
 let prevTime = Date.now();
 let currentTime = Date.now();
-let duration = 10000; // ms
+let duration = 15000; // ms
 
 const floorUrl = "../images/checker_large.gif";
 
@@ -92,25 +92,25 @@ function onKeyUp(event) {
     case 38: // up
     case 87: // w
       moveForward = false;
-      duration = 10000;
+      duration = 15000;
       break;
 
     case 37: // left
     case 65: // a
       moveLeft = false;
-      duration = 10000;
+      duration = 15000;
       break;
 
     case 40: // down
     case 83: // s
       moveBackward = false;
-      duration = 10000;
+      duration = 15000;
       break;
 
     case 39: // right
     case 68: // d
       moveRight = false;
-      duration = 10000;
+      duration = 15000;
       break;
   }
 }
