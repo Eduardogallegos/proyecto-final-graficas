@@ -2,24 +2,19 @@ import { FBXLoader } from '../libs/three.js/r125/loaders/FBXLoader.js';
 import * as THREE from '../libs/three.js/r125/three.module.js'
 import { PointerLockControls } from '../libs/three.js/r125/controls/PointerLockControls.js';
 
-let camera, scene, renderer, controls;
+let camera, scene, renderer, controls, raycaster, blocker, instructions, velocity, direction;
 
-let objects = [];
-
-let enemies = [];
-
-let raycaster;
-
-let blocker, instructions;
+let objects = [], 
+enemies = [];
 
 let moveForward = false;
 let moveBackward = false;
 let moveLeft = false;
 let moveRight = false;
 let canJump = false;
-
 let prevTime = Date.now();
-let velocity, direction;
+let currentTime = Date.now();
+let duration = 10000; // ms
 
 const floorUrl = "../images/checker_large.gif";
 
@@ -54,26 +49,31 @@ function onKeyDown ( event )
         case 38: // up
         case 87: // w
             moveForward = true;
+            duration = 2000;
             break;
 
         case 37: // left
         case 65: // a
-            moveLeft = true; 
+            moveLeft = true;
+            duration = 2000;
             break;
 
         case 40: // down
         case 83: // s
             moveBackward = true;
+            duration = 2000;
             break;
 
         case 39: // right
         case 68: // d
             moveRight = true;
+            duration = 2000;
             break;
 
         case 32: // space
             if ( canJump === true ) velocity.y += 350;
             canJump = false;
+            duration = 2000;
             break;
     }
 
@@ -86,21 +86,25 @@ function onKeyUp( event ) {
         case 38: // up
         case 87: // w
             moveForward = false;
+            duration = 10000;
             break;
 
         case 37: // left
         case 65: // a
             moveLeft = false;
+            duration = 10000;
             break;
 
         case 40: // down
         case 83: // s
             moveBackward = false;
+            duration = 10000;
             break;
 
         case 39: // right
         case 68: // d
             moveRight = false;
+            duration = 10000;
             break;
 
     }
@@ -154,9 +158,13 @@ function createScene(canvas)
     scene.add( floor );
 
     //ASSETS
-    loadObjects();
+    // Load walls && house assets
+    loadFBX('./models/house.fbx', {position: new THREE.Vector3(0, -74, -20), scale:new THREE.Vector3(0.05, 0.05, 0.05) }, objects);
+    // Method to load OBJ models
+    //loadObj(objModel, {position: new THREE.Vector3(-8, 0, 0), scale: new THREE.Vector3(3, 3, 3), rotation: new THREE.Vector3(0, 1.58, 0) });
 
     initPointerLock();
+    loadEnemies();
 }
 
 function setVectorValue(vector, configuration, property, initialValues)
@@ -194,12 +202,15 @@ async function loadFBX(fbxModelUrl, configuration, arr)
     }
 }
 
-function loadObjects()
-{
-    //loadObj(objModel, {position: new THREE.Vector3(-8, 0, 0), scale: new THREE.Vector3(3, 3, 3), rotation: new THREE.Vector3(0, 1.58, 0) });
+function loadEnemies(){
+    /**
+     * Function called on every frame to keep the number of enemies on the scene
+     * Until now keep it as 1 enemy
+     */
+    if (!enemies.length){
+        loadFBX('./models/enemy/uga-uga/uga-uga.fbx', {position: new THREE.Vector3(0, -15, -150), scale:new THREE.Vector3(1, 1, 1) }, enemies);
+    }
 
-    let escenario = loadFBX('./models/3d-model.fbx', {position: new THREE.Vector3(0, -74, -20), scale:new THREE.Vector3(0.05, 0.05, 0.05) }, objects);
-    let enemy = loadFBX('./models/enemy/aaa.FBX', {position: new THREE.Vector3(0, -15, -20), scale:new THREE.Vector3(1, 1, 1) }, enemies);
 }
 
 function update() 
@@ -208,14 +219,17 @@ function update()
 
     if ( controls.isLocked === true ) 
     {
-        moveEnemy();
+        // Manage enemies
+        loadEnemies();
+        moveEnemies();
+
         raycaster.ray.origin.copy( controls.getObject().position );
         raycaster.ray.origin.y -= 10;
 
         let intersections = raycaster.intersectObjects( objects );
         let onObject = intersections.length > 0;
         let time = Date.now();
-        let delta = ( time - prevTime ) / 500;
+        let delta = ( time - prevTime ) / 800;
 
         velocity.x -= velocity.x * 1.0 * delta;
         velocity.z -= velocity.z * 1.0 * delta;
@@ -254,10 +268,7 @@ function update()
 
 }
 
-let currentTime = Date.now();
-let duration = 2000; // ms
-
-function moveEnemy(){
+function moveEnemies(){
     let now = Date.now();
     let deltat = now - currentTime;
     currentTime = now;
@@ -272,9 +283,7 @@ function moveEnemy(){
 function main()
 {
     const canvas = document.getElementById("webglcanvas");
-
     createScene(canvas);
-
     update();
 }
 
