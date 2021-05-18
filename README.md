@@ -1,5 +1,4 @@
 # ENDLESSHOT
-![Demo](./images/superhot.gif)
 
 ## Tabla de contenidos
 * [General Info](#general-information)
@@ -64,8 +63,9 @@ To do:
 
 
 ## Acknowledgements
-Give credit here.
-- This project was inspired by...
+- Proyecto inspirado en [SUPERHOT](https://superhotgame.com/)
+
+![Demo](./images/superhot.gif)
 - This project was based on [this tutorial](https://www.example.com).
 - Many thanks to...
 <!-- https://github.com/ritaly/README-cheatsheet -->
