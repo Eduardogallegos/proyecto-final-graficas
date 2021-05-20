@@ -1,0 +1,5 @@
+class MainCharacter{
+
+}
+
+export {MainCharacter};
