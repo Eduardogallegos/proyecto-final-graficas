@@ -25,22 +25,17 @@ class MainCharacter {
     this.moveLeft = false;
     this.moveRight = false;
     this.canJump = false;
-    this.directions = [
-      this.moveForward,
-      this.moveBackward,
-      this.moveLeft,
-      this.moveRight,
-    ];
+    this.prevTime = Date.now();
     this.initPointerLock();
   }
 
-  update(objects, prevTime) {
+  update(objects) {
     this.raycaster.ray.origin.copy(this.controls.getObject().position);
     this.raycaster.ray.origin.y -= 10;
     let intersections = this.raycaster.intersectObjects(objects);
     let onObject = intersections.length > 0;
     let time = Date.now();
-    let delta = (time - prevTime) / 800;
+    let delta = (time - this.prevTime) / 800;
 
     this.velocity.x -= this.velocity.x * 1.0 * delta;
     this.velocity.z -= this.velocity.z * 1.0 * delta;
@@ -49,13 +44,15 @@ class MainCharacter {
     this.direction.x = Number(this.moveRight) - Number(this.moveLeft);
     this.direction.normalize(); // this ensures consistent movements in all directions
 
-    if (this.moveForward || this.moveBackward) this.velocity.z -= this.direction.z * 400.0 * delta;
+    if (this.moveForward || this.moveBackward)
+      this.velocity.z -= this.direction.z * 400.0 * delta;
 
-    if (this.moveLeft || this.moveRight) this.velocity.x -= this.direction.x * 400.0 * delta;
+    if (this.moveLeft || this.moveRight)
+      this.velocity.x -= this.direction.x * 400.0 * delta;
 
     if (onObject === true) {
-        this.velocity.y = Math.max(0, this.velocity.y);
-        this.canJump = true;
+      this.velocity.y = Math.max(0, this.velocity.y);
+      this.canJump = true;
     }
     this.controls.moveRight(-this.velocity.x * delta);
     this.controls.moveForward(-this.velocity.z * delta);
@@ -63,11 +60,11 @@ class MainCharacter {
     this.controls.getObject().position.y += this.velocity.y * delta; // new behavior
 
     if (this.controls.getObject().position.y < 10) {
-        this.velocity.y = 0;
+      this.velocity.y = 0;
       this.controls.getObject().position.y = 10;
       this.canJump = true;
     }
-    prevTime = time;
+    this.prevTime = time;
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -79,7 +76,7 @@ class MainCharacter {
   initPointerLock() {
     let blocker = document.getElementById("blocker");
     let instructions = document.getElementById("instructions");
-    let ctx = this
+    let ctx = this;
 
     this.controls.addEventListener("lock", function () {
       instructions.style.display = "none";
@@ -106,10 +103,36 @@ class MainCharacter {
   changeWeapon() {}
   attack() {}
   changeDirection(newDirection) {
-    this.directions[newDirection] = true;
+    switch (newDirection) {
+        case 0:
+          this.moveForward = true;
+          break;
+        case 1:
+          this.moveBackward = true;
+          break;
+        case 2:
+          this.moveLeft = true;
+          break;
+        case 3:
+          this.moveRight = true;
+          break;
+      }
   }
   stopDirection(newDirection) {
-    this.directions[newDirection] = false;
+    switch (newDirection) {
+      case 0:
+        this.moveForward = false;
+        break;
+      case 1:
+        this.moveBackward = false;
+        break;
+      case 2:
+        this.moveLeft = false;
+        break;
+      case 3:
+        this.moveRight = false;
+        break;
+    }
   }
   jump() {
     if (this.canJump === true) this.velocity.y += 350;

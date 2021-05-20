@@ -9,13 +9,13 @@ let scene,
 let objects = [],
   enemies = [];
 
-let prevTime = Date.now();
 let currentTime = Date.now();
 let duration = 15000; // ms
 
 const floorUrl = "../images/checker_large.gif";
 
 function onKeyDown(event) {
+  console.log("Codigo" + event.keyCode)
   switch (event.keyCode) {
     case 38: // up
     case 87: // w
@@ -71,6 +71,9 @@ function onKeyUp(event) {
     case 39: // right
     case 68: // d
       mainChar.stopDirection(3);
+      duration = 15000;
+      break;
+    case 32:
       duration = 15000;
       break;
   }
@@ -205,7 +208,7 @@ function update() {
     // Manage enemies
     loadEnemies();
     moveEnemies();
-    mainChar.update(objects, prevTime);
+    mainChar.update(objects);
   }
 }
 
