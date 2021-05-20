@@ -65,6 +65,6 @@ $ git clone https://github.com/Eduardogallegos/proyecto-final-graficas.git
 ## Contact
 Created by:
     - [Eduardo](mailto:egallegossolis@gmail.com)
-    - [Pedro] (mailto:pedro_corsob@outlook.com)
-    - [Francisco] (mailto:javier_z_t@hotmail.com)
+    - [Pedro](mailto:pedro_corsob@outlook.com)
+    - [Francisco](mailto:javier_z_t@hotmail.com)
 Feel free to contact us!
