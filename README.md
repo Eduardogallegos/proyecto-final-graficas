@@ -11,64 +11,60 @@
 * [Contact](#contact)
 
 ## General Information
-Proyecto Final Gráficas Computacionales (TC3022)
-- Provide general information about your project here.
-- What problem does it (intend to) solve?
-- What is the purpose of your project?
-- Why did you undertake it?
+- Computer Grafics (TC3022) Final Project February-June 2021
+- Endless FPS Web Game.  
 
-### Desarrolladores:
-- Eduardo Gallegos
-- Pedro Cortes
-- Francisco Zavala
-### Profesor
-- Octavio Navarro
+### Developers:
+- [Eduardo Gallegos](https://github.com/Eduardogallegos)
+- [Pedro Cortes](https://github.com/A01374919)
+- [Francisco Javier Zavala](https://github.com/JavierZavala17)
+### Professor
+- [Octavio Navarro](https://github.com/octavio-navarro)
 
 ## Technologies Used
-- Tech 1 - version 1.0
-- Tech 2 - version 2.0
-- Tech 3 - version 3.0
+- [ThreeJS](https://threejs.org/)
+- [CannonJS](https://github.com/schteppe/cannon.js/)
 
 ## Features
-List the ready features here:
-- Awesome feature 1
-- Awesome feature 2
-- Awesome feature 3
+- Scene with 3D objects (airplanes, cars, boxes)
+- Fisrt Person Character (POV camera)
+- 1 type of enemy
+- 3 types of weapons (knife, gun and rifle)
+    - Main character has the 3 weapons with 0 ammo.
+    - Ammo is gained when killing enemies. (Random from 1 to 5)
+    - Enemies have just one weapon with unlimited ammo.
+- Time moves only when main character moves.
 
 ## Screenshots
 
 ## Setup
-What are the project requirements/dependencies? Where are they listed? A requirements.txt or a Pipfile.lock file perhaps? Where is it located?
-
-Proceed to describe how to install / setup one's local environment / get started with the project.
+1. Clone the repo:
+```bash
+$ git clone https://github.com/Eduardogallegos/proyecto-final-graficas.git
+```
+2. Open the `index.html` file with a web browser. Or use a local development server like [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
+3. Have fun.
 
 ## Room for Improvement
-    - 1 Nivel con objetos 3D (mesas, sillas, columnas, paredes, etc)
-    - Cámara en 1era persona
-    - 3 tipos de arma (pica hielo, cuerno de chivo, escuadra)
-        - El pj empezará con las 3 armas pero sin munición, ésta se conseguirá al matar enemigos, el drop de munición varia de 1 a random
-    - 1 tipo de NPC agresivo
-        - Los enemigos contaran con 1 sola arma de las tres que existen
-    - El tiempo solo se mueve cuando el pj se mueve (si mueves la cámara esta no afectrá al flujo del tiempo)
+### TODOS:
+- Weapons to the enemies
+- Ammo logic for main character
 
-Include areas you believe need improvement / could be improved. Also add TODOs for future development.
-
-Room for improvement:
-- Improvement to be done 1
-- Improvement to be done 2
-
-To do:
-- Feature to be added 1
-- Feature to be added 2
-
+### Features on the next release:
+- Changes on the scene props.
+- Logic to interact with the scene props.
+- Hands with weapons for the main character.
+- Enemies with animations (run, shoot, die).
 
 ## Acknowledgements
-- Proyecto inspirado en [SUPERHOT](https://superhotgame.com/)
+- Inspired in [SUPERHOT](https://superhotgame.com/)
 
 ![Demo](./images/superhot.gif)
-- This project was based on [this tutorial](https://www.example.com).
-- Many thanks to...
-<!-- https://github.com/ritaly/README-cheatsheet -->
+- This project was based on [the course repo](https://github.com/octavio-navarro/Computer-Graphics).
 
 ## Contact
-Created by [@flynerdpl](https://www.flynerd.pl/) - feel free to contact me!
+Created by:
+    - [Eduardo](mailto:egallegossolis@gmail.com)
+    - [Pedro] (mailto:pedro_corsob@outlook.com)
+    - [Francisco] (mailto:javier_z_t@hotmail.com)
+Feel free to contact us!
