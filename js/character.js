@@ -1,10 +1,13 @@
 import * as THREE from "../libs/three.js/r125/three.module.js";
 import { PointerLockControls } from "../libs/three.js/r125/controls/PointerLockControls.js";
 import { FBXLoader } from "../libs/three.js/r125/loaders/FBXLoader.js";
+import { Knife } from "./knife.js";
+import { Gun } from "./gun.js";
+import { Rifle } from "./rifle.js";
 
 class MainCharacter {
   camera = new THREE.PerspectiveCamera(
-    45,
+    450,
     window.innerWidth / window.innerHeight,
     1,
     1000
@@ -24,20 +27,21 @@ class MainCharacter {
   moveRight = false;
   canJump = false;
   prevTime = Date.now();
-  characterGroup =  new THREE.Object3D();
+  characterGroup = new THREE.Object3D();
+  knife = new Knife(this.characterGroup);
+  // gun = new Gun(this.characterGroup);
+  // rifle = new Rifle(this.characterGroup);
+  actualWeapon = 1;
 
   constructor(renderer, scene) {
     this.scene = scene;
     this.scene.add(this.characterGroup);
     this.renderer = renderer;
     this.initPointerLock();
-    this.loadFBX(
-        "../models/hands/Rigged Hand.fbx",
-        {
-        position: new THREE.Vector3(15, -100, 15),
-        scale: new THREE.Vector3(100, 100, 100),
-        }
-    );
+    this.loadFBX("../models/hands/Rigged Hand.fbx", {
+      position: new THREE.Vector3(0, -150, -20),
+      scale: new THREE.Vector3(100, 100, 100),
+    });
     // let container = document.getElementById("container")
     // container.addEventListener("scroll", this.changeWeapon, false);
     // container.addEventListener("click", this.attack, false);
@@ -78,7 +82,11 @@ class MainCharacter {
       this.controls.getObject().position.y = 10;
       this.canJump = true;
     }
-    this.characterGroup.position.set(this.camera.position.x, this.camera.position.y, this.camera.position.z);
+    this.characterGroup.position.set(
+      this.camera.position.x,
+      this.camera.position.y,
+      this.camera.position.z
+    );
     this.prevTime = time;
     this.renderer.render(this.scene, this.camera);
   }
@@ -134,15 +142,15 @@ class MainCharacter {
   async loadFBX(fbxModelUrl, configuration) {
     try {
       let object = await new FBXLoader().loadAsync(fbxModelUrl);
-      console.log(object)
+      console.log(object);
 
-    //   object.castShadow = true;
-    //     object. receiveShadow = true;
+      //   object.castShadow = true;
+      //     object. receiveShadow = true;
 
-    //     object.mixer = new THREE.AnimationMixer( this.scene );
-        
-    //     object.action = object.mixer.clipAction( object.animations[2], object).setDuration( 0.041 )
-    //     object.action.play();
+      //     object.mixer = new THREE.AnimationMixer( this.scene );
+
+      //     object.action = object.mixer.clipAction( object.animations[2], object).setDuration( 0.041 )
+      //     object.action.play();
       this.setVectorValue(
         object.position,
         configuration,
@@ -174,6 +182,25 @@ class MainCharacter {
     console.log("Changing weapon" + event);
   }
   changeWeaponEnum(index) {
+    switch (index) {
+      case 1:
+        if(this.actualWeapon != 1){
+          knife = new Knife(this.characterGroup)
+        }
+        break;
+      case 2:
+        if(this.actualWeapon != 2){
+          gun = new Gun(this.characterGroup)
+        }
+        
+        break;
+      case 3:
+        if(this.actualWeapon != 3){
+          rifle = new Rifle(this.characterGroup)
+        }
+        
+        break
+    }
     console.log("Changing weapon @ " + index);
   }
   attack(event) {
