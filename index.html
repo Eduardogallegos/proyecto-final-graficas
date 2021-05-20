@@ -19,18 +19,46 @@
         border: 0;
         overflow: hidden;
       }
+      #ammoText{
+            margin: 0;
+            position: absolute;
+            top: 2%;
+            left: 2%;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 50px;
+        }
     </style>
   </head>
 
   <body>
     <div id="blocker">
       <div id="instructions">
-        <span style="font-size: 40px">Click to play</span>
+        <span style="font-size: 80px">Click to play</span>
         <br />
-        (W, A, S, D = Move, SPACE = Jump, MOUSE = Look around)
+        <br />
+        <br />
+        <br />
+        <span style="font-size: 40px">Controls</span>
+        <br />
+        <br />
+        <span style="font-size: 20px">
+        <ul>
+          <li>W, A, S, D => Move</li>
+          <br />
+          <li>Space => Jump</li>
+          <br />
+          <li>Mouse => Look around</li>
+          <br />
+          <li>Click => Attack</li>
+          <br />
+          <li> <!--Scroll or--> 1, 2, 3 => Change Weapon</li> 
+        </ul>
+        </span>
       </div>
     </div>
-
+    <div>
+      <p id="ammoText">Ammo: 0</p>
+    </div>
     <div id="container">
       <canvas id="webglcanvas"></canvas>
     </div>

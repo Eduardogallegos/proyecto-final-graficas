@@ -15,7 +15,6 @@ let duration = 15000; // ms
 const floorUrl = "../images/checker_large.gif";
 
 function onKeyDown(event) {
-  console.log("Codigo" + event.keyCode)
   switch (event.keyCode) {
     case 38: // up
     case 87: // w
@@ -44,6 +43,15 @@ function onKeyDown(event) {
     case 32: // space
       mainChar.jump();
       duration = 2000;
+      break;
+    case 49:
+      mainChar.changeWeaponEnum(1);
+      break;
+    case 50:
+      mainChar.changeWeaponEnum(2);
+      break;
+    case 51:
+      mainChar.changeWeaponEnum(3);
       break;
   }
 }

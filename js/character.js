@@ -1,32 +1,46 @@
 import * as THREE from "../libs/three.js/r125/three.module.js";
 import { PointerLockControls } from "../libs/three.js/r125/controls/PointerLockControls.js";
+import { FBXLoader } from "../libs/three.js/r125/loaders/FBXLoader.js";
 
 class MainCharacter {
+  camera = new THREE.PerspectiveCamera(
+    45,
+    window.innerWidth / window.innerHeight,
+    1,
+    1000
+  );
+  raycaster = new THREE.Raycaster(
+    new THREE.Vector3(),
+    new THREE.Vector3(0, -1, 0),
+    0,
+    15
+  );
+  direction = new THREE.Vector3();
+  velocity = new THREE.Vector3();
+  controls = new PointerLockControls(this.camera, document.body);
+  moveForward = false;
+  moveBackward = false;
+  moveLeft = false;
+  moveRight = false;
+  canJump = false;
+  prevTime = Date.now();
+  characterGroup =  new THREE.Object3D();
+
   constructor(renderer, scene) {
-    this.camera = new THREE.PerspectiveCamera(
-      45,
-      window.innerWidth / window.innerHeight,
-      1,
-      1000
-    );
-    this.raycaster = new THREE.Raycaster(
-      new THREE.Vector3(),
-      new THREE.Vector3(0, -1, 0),
-      0,
-      15
-    );
     this.scene = scene;
+    this.scene.add(this.characterGroup);
     this.renderer = renderer;
-    this.direction = new THREE.Vector3();
-    this.velocity = new THREE.Vector3();
-    this.controls = new PointerLockControls(this.camera, document.body);
-    this.moveForward = false;
-    this.moveBackward = false;
-    this.moveLeft = false;
-    this.moveRight = false;
-    this.canJump = false;
-    this.prevTime = Date.now();
     this.initPointerLock();
+    this.loadFBX(
+        "../models/hands/Rigged Hand.fbx",
+        {
+        position: new THREE.Vector3(15, -100, 15),
+        scale: new THREE.Vector3(100, 100, 100),
+        }
+    );
+    // let container = document.getElementById("container")
+    // container.addEventListener("scroll", this.changeWeapon, false);
+    // container.addEventListener("click", this.attack, false);
   }
 
   update(objects) {
@@ -64,13 +78,14 @@ class MainCharacter {
       this.controls.getObject().position.y = 10;
       this.canJump = true;
     }
+    this.characterGroup.position.set(this.camera.position.x, this.camera.position.y, this.camera.position.z);
     this.prevTime = time;
     this.renderer.render(this.scene, this.camera);
   }
 
   resize(canvasWidth, canvasHeight) {
     this.camera.aspect = canvasWidth / canvasHeight;
-    this.camera.updateProjectionMatriz;
+    this.camera.updateProjectionMatrix();
   }
 
   initPointerLock() {
@@ -99,24 +114,86 @@ class MainCharacter {
     this.scene.add(this.controls.getObject());
   }
 
+  setVectorValue(vector, configuration, property, initialValues) {
+    if (configuration !== undefined) {
+      if (property in configuration) {
+        console.log("setting:", property, "with", configuration[property]);
+        vector.set(
+          configuration[property].x,
+          configuration[property].y,
+          configuration[property].z
+        );
+        return;
+      }
+    }
+
+    console.log("setting:", property, "with", initialValues);
+    vector.set(initialValues.x, initialValues.y, initialValues.z);
+  }
+
+  async loadFBX(fbxModelUrl, configuration) {
+    try {
+      let object = await new FBXLoader().loadAsync(fbxModelUrl);
+      console.log(object)
+
+    //   object.castShadow = true;
+    //     object. receiveShadow = true;
+
+    //     object.mixer = new THREE.AnimationMixer( this.scene );
+        
+    //     object.action = object.mixer.clipAction( object.animations[2], object).setDuration( 0.041 )
+    //     object.action.play();
+      this.setVectorValue(
+        object.position,
+        configuration,
+        "position",
+        new THREE.Vector3(0, 0, 0)
+      );
+      this.setVectorValue(
+        object.scale,
+        configuration,
+        "scale",
+        new THREE.Vector3(1, 1, 1)
+      );
+      this.setVectorValue(
+        object.rotation,
+        configuration,
+        "rotation",
+        new THREE.Vector3(0, 0, 0)
+      );
+
+      this.characterGroup.add(object);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   areControlsLocked = () => this.controls.isLocked;
-  changeWeapon() {}
-  attack() {}
+
+  changeWeapon(event) {
+    console.log("Changing weapon" + event);
+  }
+  changeWeaponEnum(index) {
+    console.log("Changing weapon @ " + index);
+  }
+  attack(event) {
+    console.log("Attacking" + event);
+  }
   changeDirection(newDirection) {
     switch (newDirection) {
-        case 0:
-          this.moveForward = true;
-          break;
-        case 1:
-          this.moveBackward = true;
-          break;
-        case 2:
-          this.moveLeft = true;
-          break;
-        case 3:
-          this.moveRight = true;
-          break;
-      }
+      case 0:
+        this.moveForward = true;
+        break;
+      case 1:
+        this.moveBackward = true;
+        break;
+      case 2:
+        this.moveLeft = true;
+        break;
+      case 3:
+        this.moveRight = true;
+        break;
+    }
   }
   stopDirection(newDirection) {
     switch (newDirection) {
