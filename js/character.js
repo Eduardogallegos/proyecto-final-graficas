@@ -28,20 +28,22 @@ class MainCharacter {
   canJump = false;
   prevTime = Date.now();
   characterGroup = new THREE.Object3D();
-  knife = new Knife(this.characterGroup);
-  // gun = new Gun(this.characterGroup);
-  // rifle = new Rifle(this.characterGroup);
+  weaponsGroup = new THREE.Object3D();
+  // weapon = new Knife(this.characterGroup);
   actualWeapon = 1;
+  charPropsInScene = [];
 
   constructor(renderer, scene) {
     this.scene = scene;
     this.scene.add(this.characterGroup);
+    this.characterGroup.add(this.weaponsGroup);
     this.renderer = renderer;
     this.initPointerLock();
     this.loadFBX("../models/hands/Rigged Hand.fbx", {
       position: new THREE.Vector3(0, -150, -20),
       scale: new THREE.Vector3(100, 100, 100),
     });
+    new Knife(this.weaponsGroup);
     // let container = document.getElementById("container")
     // container.addEventListener("scroll", this.changeWeapon, false);
     // container.addEventListener("click", this.attack, false);
@@ -184,24 +186,29 @@ class MainCharacter {
   changeWeaponEnum(index) {
     switch (index) {
       case 1:
-        if(this.actualWeapon != 1){
-          knife = new Knife(this.characterGroup)
+        if (this.actualWeapon != 1) {
+          this.weaponsGroup.children = [];
+          new Knife(this.weaponsGroup);
+          this.actualWeapon = 1;
         }
         break;
       case 2:
-        if(this.actualWeapon != 2){
-          gun = new Gun(this.characterGroup)
+        if (this.actualWeapon != 2) {
+          this.weaponsGroup.children = [];
+          new Gun(this.weaponsGroup);
+          this.actualWeapon = 2;
         }
-        
+
         break;
       case 3:
-        if(this.actualWeapon != 3){
-          rifle = new Rifle(this.characterGroup)
+        if (this.actualWeapon != 3) {
+          this.weaponsGroup.children = [];
+          new Rifle(this.weaponsGroup);
+          this.actualWeapon = 3;
         }
-        
-        break
+
+        break;
     }
-    console.log("Changing weapon @ " + index);
   }
   attack(event) {
     console.log("Attacking" + event);
