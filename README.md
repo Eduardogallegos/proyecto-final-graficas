@@ -46,7 +46,7 @@ $ git clone https://github.com/Eduardogallegos/proyecto-final-graficas.git
 3. Have fun.
 
 ## Room for Improvement
-### TODOS:
+### TODOs:
 - Weapons to the enemies
 - Ammo logic for main character
 
