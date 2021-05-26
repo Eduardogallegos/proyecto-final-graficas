@@ -2,6 +2,9 @@ import * as THREE from "../libs/three.js/r125/three.module.js";
 import { FBXLoader } from "../libs/three.js/r125/loaders/FBXLoader.js";
 // Handgun_fbx_7.4_binary.fbx
 class Gun {
+
+  type = "gun";
+
   constructor(group) {
     this.group = group;
     this.loadFBX("../models/weapons/Pistol.fbx", {

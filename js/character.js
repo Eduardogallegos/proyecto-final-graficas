@@ -113,25 +113,21 @@ class MainCharacter {
   changeWeaponEnum(index) {
     switch (index) {
       case 1:
-        if (this.actualWeapon != 1) {
+        if (this.actualWeapon.type != "knife") {
           this.weaponsGroup.children = [];
-          new Knife(this.weaponsGroup);
-          this.actualWeapon = 1;
+          this.actualWeapon = new Knife(this.weaponsGroup);
         }
         break;
       case 2:
-        if (this.actualWeapon != 2) {
+        if (this.actualWeapon.type != "gun") {
           this.weaponsGroup.children = [];
-          new Gun(this.weaponsGroup);
-          this.actualWeapon = 2;
+          this.actualWeapon = new Gun(this.weaponsGroup);
         }
-
         break;
       case 3:
-        if (this.actualWeapon != 3) {
+        if (this.actualWeapon.type != "rifle") {
           this.weaponsGroup.children = [];
-          new Rifle(this.weaponsGroup);
-          this.actualWeapon = 3;
+          this.actualWeapon = new Rifle(this.weaponsGroup);
         }
         break;
     }
