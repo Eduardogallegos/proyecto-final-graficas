@@ -17,16 +17,9 @@ class Gun {
     console.log("Attacking gun");
     console.log(event);
     let xRotation = 0.2;
-    let yRotation = 0.4;
-    let zRotation = 0.2;
     this.group.rotation.x += xRotation;
-    // this.group.rotation.z -= zRotation;
-    console.log("gun up")
-    await this.sleep(200)
+    await this.sleep(300)
     this.group.rotation.x -= xRotation;
-    // this.group.rotation.z += zRotation;
-    console.log("gun down")
-    this.isAttacking = false;
   }
 
   sleep = (milliseconds) => new Promise(resolve => setTimeout(resolve, milliseconds));

@@ -5,7 +5,6 @@ class Knife {
 
   type = "knife"
   currentTime = Date.now()
-  isAttacking = false
 
   constructor(group) {
     this.group = group;
@@ -20,16 +19,11 @@ class Knife {
     console.log(event);
     let xRotation = 0.6;
     let yRotation = 0.4;
-    let zRotation = 0.5;
     this.group.rotation.x += xRotation;
     this.group.rotation.y += yRotation;
-    console.log("knife up")
-    // this.group.rotation.y += angle/3;
     await this.sleep(200)
     this.group.rotation.x -= xRotation;
     this.group.rotation.y -= yRotation;
-    console.log("kife down")
-    this.isAttacking = false;
   }
   sleep = (milliseconds) => new Promise(resolve => setTimeout(resolve, milliseconds));  
 

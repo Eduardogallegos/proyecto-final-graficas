@@ -13,11 +13,16 @@ class Rifle {
     });
   }
 
-  attack(event){
+  async attack(event){
     console.log("Attacking rifle");
     console.log(event);
-    console.log(this.group.position)
+    let xRotation = 0.2;
+    this.group.rotation.x += xRotation;
+    await this.sleep(100)
+    this.group.rotation.x -= xRotation;
   }
+
+  sleep = (milliseconds) => new Promise(resolve => setTimeout(resolve, milliseconds));
 
   setVectorValue(vector, configuration, property, initialValues) {
     if (configuration !== undefined) {
