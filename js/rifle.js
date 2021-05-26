@@ -13,6 +13,12 @@ class Rifle {
     });
   }
 
+  attack(event){
+    console.log("Attacking rifle");
+    console.log(event);
+    console.log(this.group.position)
+  }
+
   setVectorValue(vector, configuration, property, initialValues) {
     if (configuration !== undefined) {
       if (property in configuration) {

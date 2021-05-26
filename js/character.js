@@ -35,7 +35,10 @@ class MainCharacter {
     this.camera.add(this.weaponsGroup);
     this.renderer = renderer;
     this.initPointerLock();
-    document.addEventListener("mousedown", this.attack, false);
+    let ctx = this;
+    document.addEventListener("mousedown", function(e){
+      ctx.attack(e);
+    }, false);
   }
 
   update(objects) {
@@ -132,10 +135,11 @@ class MainCharacter {
         break;
     }
   }
+
   attack(event) {
-    console.log("Attacking");
-    console.log(event);
+    this.actualWeapon.attack(event)
   }
+
   changeDirection(newDirection) {
     switch (newDirection) {
       case 0:

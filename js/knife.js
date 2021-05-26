@@ -13,6 +13,15 @@ class Knife {
     });
   }
 
+  attack(event){
+    console.log("Attacking knife");
+    console.log(event);
+    console.log(this.group.position)
+    let position = this.group.position
+    // this.group.position.set(position.x + 5, position.y + 5, position.z + 5)
+    // this.group.position.set(position.x, position.y, position.z)
+  }
+
   setVectorValue(vector, configuration, property, initialValues) {
     if (configuration !== undefined) {
       if (property in configuration) {
