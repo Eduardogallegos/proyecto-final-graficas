@@ -3,7 +3,7 @@ import { FBXLoader } from "../libs/three.js/r125/loaders/FBXLoader.js";
 // Sting-Sword lowpoly.fbx
 class Knife {
   constructor(group) {
-      this.group = group
+    this.group = group;
     this.loadFBX("../models/weapons/ww2knife.fbx", {
       position: new THREE.Vector3(5, -5, -5),
       scale: new THREE.Vector3(0.04, 0.04, 0.04),

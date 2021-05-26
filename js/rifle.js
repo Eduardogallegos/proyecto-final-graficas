@@ -3,7 +3,7 @@ import { FBXLoader } from "../libs/three.js/r125/loaders/FBXLoader.js";
 
 class Rifle {
   constructor(group) {
-      this.group = group
+    this.group = group;
     this.loadFBX("../models/weapons/MP5.fbx", {
       position: new THREE.Vector3(2, -5, 0),
       scale: new THREE.Vector3(0.02, 0.02, 0.02),

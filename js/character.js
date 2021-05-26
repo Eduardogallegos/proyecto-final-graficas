@@ -1,6 +1,5 @@
 import * as THREE from "../libs/three.js/r125/three.module.js";
 import { PointerLockControls } from "../libs/three.js/r125/controls/PointerLockControls.js";
-import { FBXLoader } from "../libs/three.js/r125/loaders/FBXLoader.js";
 import { Knife } from "./knife.js";
 import { Gun } from "./gun.js";
 import { Rifle } from "./rifle.js";
@@ -28,7 +27,7 @@ class MainCharacter {
   canJump = false;
   prevTime = Date.now();
   weaponsGroup = new THREE.Object3D();
-  actualWeapon = 1;
+  actualWeapon = new Knife(this.weaponsGroup);
   charPropsInScene = [];
 
   constructor(renderer, scene) {
@@ -36,7 +35,6 @@ class MainCharacter {
     this.camera.add(this.weaponsGroup);
     this.renderer = renderer;
     this.initPointerLock();
-    new Knife(this.weaponsGroup);
     document.addEventListener("mousedown", this.attack, false);
   }
 
@@ -140,7 +138,7 @@ class MainCharacter {
   }
   attack(event) {
     console.log("Attacking");
-    console.log(event)
+    console.log(event);
   }
   changeDirection(newDirection) {
     switch (newDirection) {
