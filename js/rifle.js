@@ -2,8 +2,8 @@ import * as THREE from "../libs/three.js/r125/three.module.js";
 import { FBXLoader } from "../libs/three.js/r125/loaders/FBXLoader.js";
 
 class Rifle {
-
-  type = "rifle"
+  type = "rifle";
+  isAttacking = false;
 
   constructor(group) {
     this.group = group;
@@ -13,16 +13,21 @@ class Rifle {
     });
   }
 
-  async attack(event){
-    console.log("Attacking rifle");
-    console.log(event);
-    let xRotation = 0.2;
-    this.group.rotation.x += xRotation;
-    await this.sleep(100)
-    this.group.rotation.x -= xRotation;
+  async attack(event) {
+    if (!this.isAttacking) {
+      this.isAttacking = true;
+      console.log("Attacking rifle");
+      console.log(event);
+      let xRotation = 0.2;
+      this.group.rotation.x += xRotation;
+      await this.sleep(100);
+      this.group.rotation.x -= xRotation;
+      this.isAttacking = false;
+    }
   }
 
-  sleep = (milliseconds) => new Promise(resolve => setTimeout(resolve, milliseconds));
+  sleep = (milliseconds) =>
+    new Promise((resolve) => setTimeout(resolve, milliseconds));
 
   setVectorValue(vector, configuration, property, initialValues) {
     if (configuration !== undefined) {

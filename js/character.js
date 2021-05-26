@@ -28,7 +28,6 @@ class MainCharacter {
   prevTime = Date.now();
   weaponsGroup = new THREE.Object3D();
   actualWeapon = new Knife(this.weaponsGroup);
-  charPropsInScene = [];
 
   constructor(renderer, scene) {
     this.scene = scene;
