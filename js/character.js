@@ -37,9 +37,7 @@ class MainCharacter {
     this.renderer = renderer;
     this.initPointerLock();
     new Knife(this.weaponsGroup);
-    // let container = document.getElementById("container")
-    // container.addEventListener("scroll", this.changeWeapon, false);
-    // container.addEventListener("click", this.attack, false);
+    document.addEventListener("mousedown", this.attack, false);
   }
 
   update(objects) {
@@ -114,9 +112,6 @@ class MainCharacter {
 
   areControlsLocked = () => this.controls.isLocked;
 
-  changeWeapon(event) {
-    console.log("Changing weapon" + event);
-  }
   changeWeaponEnum(index) {
     switch (index) {
       case 1:
@@ -140,12 +135,12 @@ class MainCharacter {
           new Rifle(this.weaponsGroup);
           this.actualWeapon = 3;
         }
-
         break;
     }
   }
   attack(event) {
-    console.log("Attacking" + event);
+    console.log("Attacking");
+    console.log(event)
   }
   changeDirection(newDirection) {
     switch (newDirection) {
