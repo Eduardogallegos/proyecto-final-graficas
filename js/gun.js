@@ -13,11 +13,23 @@ class Gun {
     });
   }
 
-  attack(event){
+  async attack(event){
     console.log("Attacking gun");
     console.log(event);
-    console.log(this.group.position)
+    let xRotation = 0.2;
+    let yRotation = 0.4;
+    let zRotation = 0.2;
+    this.group.rotation.x += xRotation;
+    // this.group.rotation.z -= zRotation;
+    console.log("gun up")
+    await this.sleep(200)
+    this.group.rotation.x -= xRotation;
+    // this.group.rotation.z += zRotation;
+    console.log("gun down")
+    this.isAttacking = false;
   }
+
+  sleep = (milliseconds) => new Promise(resolve => setTimeout(resolve, milliseconds));
 
   setVectorValue(vector, configuration, property, initialValues) {
     if (configuration !== undefined) {
