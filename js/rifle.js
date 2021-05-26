@@ -51,13 +51,6 @@ class Rifle {
       let object = await new FBXLoader().loadAsync(fbxModelUrl);
       console.log(object);
 
-      //   object.castShadow = true;
-      //     object. receiveShadow = true;
-
-      //     object.mixer = new THREE.AnimationMixer( this.scene );
-
-      //     object.action = object.mixer.clipAction( object.animations[2], object).setDuration( 0.041 )
-      //     object.action.play();
       this.setVectorValue(
         object.position,
         configuration,

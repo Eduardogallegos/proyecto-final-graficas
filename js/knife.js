@@ -19,8 +19,8 @@ class Knife {
       this.isAttacking = true;
       console.log("Attacking knife");
       console.log(event);
-      let xRotation = 0.6;
-      let yRotation = 0.4;
+      let xRotation = 0.3;
+      let yRotation = 0.5;
       this.group.rotation.x += xRotation;
       this.group.rotation.y += yRotation;
       await this.sleep(100);
@@ -54,13 +54,6 @@ class Knife {
       let object = await new FBXLoader().loadAsync(fbxModelUrl);
       console.log(object);
 
-      //   object.castShadow = true;
-      //     object. receiveShadow = true;
-
-      //     object.mixer = new THREE.AnimationMixer( this.scene );
-
-      //     object.action = object.mixer.clipAction( object.animations[2], object).setDuration( 0.041 )
-      //     object.action.play();
       this.setVectorValue(
         object.position,
         configuration,

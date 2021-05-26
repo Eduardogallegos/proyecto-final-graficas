@@ -34,10 +34,15 @@ class MainCharacter {
     this.camera.add(this.weaponsGroup);
     this.renderer = renderer;
     this.initPointerLock();
+    this.drawPointer();
     let ctx = this;
-    document.addEventListener("mousedown", function(e){
-      ctx.attack(e);
-    }, false);
+    document.addEventListener(
+      "mousedown",
+      function (e) {
+        ctx.attack(e);
+      },
+      false
+    );
   }
 
   update(objects) {
@@ -82,6 +87,18 @@ class MainCharacter {
   resize(canvasWidth, canvasHeight) {
     this.camera.aspect = canvasWidth / canvasHeight;
     this.camera.updateProjectionMatrix();
+  }
+
+  drawPointer() {
+    let pointerGeometry = new THREE.SphereGeometry(0.01, 32, 32);
+    let pointerMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    let pointer = new THREE.Mesh(pointerGeometry, pointerMaterial);
+    let pointerGroup = new THREE.Object3D();
+    pointerGroup.add(pointer);
+    pointerGroup.position.set(
+      0, 0, -2
+    )
+    this.camera.add(pointerGroup);
   }
 
   initPointerLock() {
@@ -136,7 +153,7 @@ class MainCharacter {
   }
 
   attack(event) {
-    this.actualWeapon.attack(event)
+    this.actualWeapon.attack(event);
   }
 
   changeDirection(newDirection) {

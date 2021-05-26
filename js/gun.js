@@ -20,7 +20,7 @@ class Gun {
       console.log(event);
       let xRotation = 0.2;
       this.group.rotation.x += xRotation;
-      await this.sleep(500);
+      await this.sleep(400);
       this.group.rotation.x -= xRotation;
       this.isAttacking = false;
     }
@@ -51,13 +51,6 @@ class Gun {
       let object = await new FBXLoader().loadAsync(fbxModelUrl);
       console.log(object);
 
-      //   object.castShadow = true;
-      //     object. receiveShadow = true;
-
-      //     object.mixer = new THREE.AnimationMixer( this.scene );
-
-      //     object.action = object.mixer.clipAction( object.animations[2], object).setDuration( 0.041 )
-      //     object.action.play();
       this.setVectorValue(
         object.position,
         configuration,
