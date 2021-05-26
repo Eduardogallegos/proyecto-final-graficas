@@ -4,6 +4,8 @@ import { FBXLoader } from "../libs/three.js/r125/loaders/FBXLoader.js";
 class Knife {
 
   type = "knife"
+  currentTime = Date.now()
+  isAttacking = false
 
   constructor(group) {
     this.group = group;
@@ -13,14 +15,23 @@ class Knife {
     });
   }
 
-  attack(event){
+  async attack(event){
     console.log("Attacking knife");
     console.log(event);
-    console.log(this.group.position)
-    let position = this.group.position
-    // this.group.position.set(position.x + 5, position.y + 5, position.z + 5)
-    // this.group.position.set(position.x, position.y, position.z)
+    let xRotation = 0.6;
+    let yRotation = 0.4;
+    let zRotation = 0.5;
+    this.group.rotation.x += xRotation;
+    this.group.rotation.y += yRotation;
+    console.log("knife up")
+    // this.group.rotation.y += angle/3;
+    await this.sleep(200)
+    this.group.rotation.x -= xRotation;
+    this.group.rotation.y -= yRotation;
+    console.log("kife down")
+    this.isAttacking = false;
   }
+  sleep = (milliseconds) => new Promise(resolve => setTimeout(resolve, milliseconds));  
 
   setVectorValue(vector, configuration, property, initialValues) {
     if (configuration !== undefined) {
