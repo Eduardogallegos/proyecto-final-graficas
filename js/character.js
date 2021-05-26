@@ -27,22 +27,15 @@ class MainCharacter {
   moveRight = false;
   canJump = false;
   prevTime = Date.now();
-  characterGroup = new THREE.Object3D();
   weaponsGroup = new THREE.Object3D();
-  // weapon = new Knife(this.characterGroup);
   actualWeapon = 1;
   charPropsInScene = [];
 
   constructor(renderer, scene) {
     this.scene = scene;
-    this.weaponsGroup.add(this.characterGroup);
     this.camera.add(this.weaponsGroup);
     this.renderer = renderer;
     this.initPointerLock();
-    this.loadFBX("../models/hands/Rigged Hand.fbx", {
-      position: new THREE.Vector3(0, -150, -20),
-      scale: new THREE.Vector3(100, 100, 100),
-    });
     new Knife(this.weaponsGroup);
     // let container = document.getElementById("container")
     // container.addEventListener("scroll", this.changeWeapon, false);
@@ -84,11 +77,6 @@ class MainCharacter {
       this.controls.getObject().position.y = 10;
       this.canJump = true;
     }
-    this.characterGroup.position.set(
-      this.camera.position.x,
-      this.camera.position.y,
-      this.camera.position.z
-    );
     this.prevTime = time;
     this.renderer.render(this.scene, this.camera);
   }
@@ -122,60 +110,6 @@ class MainCharacter {
     );
 
     this.scene.add(this.controls.getObject());
-  }
-
-  setVectorValue(vector, configuration, property, initialValues) {
-    if (configuration !== undefined) {
-      if (property in configuration) {
-        console.log("setting:", property, "with", configuration[property]);
-        vector.set(
-          configuration[property].x,
-          configuration[property].y,
-          configuration[property].z
-        );
-        return;
-      }
-    }
-
-    console.log("setting:", property, "with", initialValues);
-    vector.set(initialValues.x, initialValues.y, initialValues.z);
-  }
-
-  async loadFBX(fbxModelUrl, configuration) {
-    try {
-      let object = await new FBXLoader().loadAsync(fbxModelUrl);
-      console.log(object);
-
-        // object.castShadow = true;
-        // object. receiveShadow = true;
-
-        // object.mixer = new THREE.AnimationMixer( this.scene );
-
-        // object.action = object.mixer.clipAction( object.animations[2], object).setDuration( 0.041 )
-        // object.action.play();
-      this.setVectorValue(
-        object.position,
-        configuration,
-        "position",
-        new THREE.Vector3(0, 0, 0)
-      );
-      this.setVectorValue(
-        object.scale,
-        configuration,
-        "scale",
-        new THREE.Vector3(1, 1, 1)
-      );
-      this.setVectorValue(
-        object.rotation,
-        configuration,
-        "rotation",
-        new THREE.Vector3(0, 0, 0)
-      );
-
-      this.characterGroup.add(object);
-    } catch (err) {
-      console.error(err);
-    }
   }
 
   areControlsLocked = () => this.controls.isLocked;
