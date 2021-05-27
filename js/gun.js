@@ -1,5 +1,7 @@
 import * as THREE from "../libs/three.js/r125/three.module.js";
 import { FBXLoader } from "../libs/three.js/r125/loaders/FBXLoader.js";
+import { Bullet } from "./bullet.js"
+
 // Handgun_fbx_7.4_binary.fbx
 class Gun {
   type = "gun";
@@ -13,13 +15,14 @@ class Gun {
     });
   }
 
-  async attack(event) {
+  async attack(event, bulletsGroup) {
     if (!this.isAttacking) {
       this.isAttacking = true;
       console.log("Attacking gun");
       console.log(event);
       let xRotation = 0.2;
       this.group.rotation.x += xRotation;
+      new Bullet(bulletsGroup);
       await this.sleep(400);
       this.group.rotation.x -= xRotation;
       this.isAttacking = false;

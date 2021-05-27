@@ -1,5 +1,6 @@
 import * as THREE from "../libs/three.js/r125/three.module.js";
 import { FBXLoader } from "../libs/three.js/r125/loaders/FBXLoader.js";
+import { Bullet } from "./bullet.js";
 
 class Rifle {
   type = "rifle";
@@ -13,13 +14,14 @@ class Rifle {
     });
   }
 
-  async attack(event) {
+  async attack(event, bulletsGroup) {
     if (!this.isAttacking) {
       this.isAttacking = true;
       console.log("Attacking rifle");
       console.log(event);
       let xRotation = 0.2;
       this.group.rotation.x += xRotation;
+      new Bullet(bulletsGroup);
       await this.sleep(100);
       this.group.rotation.x -= xRotation;
       this.isAttacking = false;

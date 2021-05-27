@@ -27,11 +27,13 @@ class MainCharacter {
   canJump = false;
   prevTime = Date.now();
   weaponsGroup = new THREE.Object3D();
+  bulletsGroup = new THREE.Object3D();
   actualWeapon = new Knife(this.weaponsGroup);
 
   constructor(renderer, scene) {
     this.scene = scene;
     this.camera.add(this.weaponsGroup);
+    this.scene.add(this.bulletsGroup);
     this.renderer = renderer;
     this.initPointerLock();
     this.drawPointer();
@@ -153,7 +155,12 @@ class MainCharacter {
   }
 
   attack(event) {
-    this.actualWeapon.attack(event);
+    if (this.actualWeapon.type != "knife"){
+      this.actualWeapon.attack(event, this.bulletsGroup);
+    }else{
+      this.actualWeapon.attack(event);
+    }
+    
   }
 
   changeDirection(newDirection) {
