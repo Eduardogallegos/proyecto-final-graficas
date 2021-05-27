@@ -33,7 +33,6 @@ class MainCharacter {
   constructor(renderer, scene) {
     this.scene = scene;
     this.camera.add(this.weaponsGroup);
-    this.scene.add(this.bulletsGroup);
     this.renderer = renderer;
     this.initPointerLock();
     this.drawPointer();
@@ -156,7 +155,7 @@ class MainCharacter {
 
   attack(event) {
     if (this.actualWeapon.type != "knife"){
-      this.actualWeapon.attack(event, this.bulletsGroup);
+      this.actualWeapon.attack(event, this.scene);
     }else{
       this.actualWeapon.attack(event);
     }
