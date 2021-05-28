@@ -5,8 +5,8 @@ class Bullet {
     this.scene = scene;
     // let defaultDirection = new THREE.Vector3(0, 0, 0);
     // let bulletList = [];
-    let bulletSize = 0.8;
-    let trailSize = 6;
+    let bulletSize = 0.6;
+    let trailSize = 3;
     let mat = new THREE.MeshBasicMaterial({ color: 0x3c2f2f });
     let trailMat = new THREE.MeshBasicMaterial({ color: 0xff3153 }); //, transparent:true, opacity:0.5} );
     let mesh = new THREE.Mesh(
@@ -20,7 +20,7 @@ class Bullet {
     mesh.add(trail);
     let bulletGroup = new THREE.Object3D();
     bulletGroup.add(mesh);
-    bulletGroup.position.set(position.x + 2, position.y - 2, position.z - 10);
+    bulletGroup.position.set(position.x, position.y - 2, position.z);
     this.scene.add(bulletGroup);
   }
 }
