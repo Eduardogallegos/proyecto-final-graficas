@@ -9,12 +9,42 @@ class MainCharacter {
     1,
     1000
   );
-  raycaster = new THREE.Raycaster(
+  
+  downRaycaster = new THREE.Raycaster(
     new THREE.Vector3(),
     new THREE.Vector3(0, -1, 0),
     0,
     15
   );
+
+  frontRaycaster = new THREE.Raycaster(
+    new THREE.Vector3(), //CAMARA + DONDE VE LA CAMARA raycater.ray.setcamera
+    new THREE.Vector3(0,0,-1),
+    0,
+    5
+  );
+
+  backRaycaster = new THREE.Raycaster(
+    new THREE.Vector3(),
+    new THREE.Vector3(0,0,1),
+    0,
+    5
+  );
+
+  rightRaycaster = new THREE.Raycaster(
+    new THREE.Vector3(),
+    new THREE.Vector3(1,0,0),
+    0,
+    5
+  );
+
+  leftRaycaster = new THREE.Raycaster(
+    new THREE.Vector3(),
+    new THREE.Vector3(-1,0,0),
+    0,
+    5
+  );
+
   direction = new THREE.Vector3();
   velocity = new THREE.Vector3();
   controls = new PointerLockControls(this.camera, document.body);
@@ -44,10 +74,29 @@ class MainCharacter {
   }
 
   update(objects) {
-    this.raycaster.ray.origin.copy(this.controls.getObject().position);
-    this.raycaster.ray.origin.y -= 10;
-    let intersections = this.raycaster.intersectObjects(objects);
-    let onObject = intersections.length > 0;
+    
+    this.downRaycaster.ray.origin.copy(this.controls.getObject().position);
+    this.downRaycaster.ray.origin.y -= 50;
+    let downintersections = this.downRaycaster.intersectObjects(objects);
+    let onObject = downintersections.length > 0;
+
+    this.frontRaycaster.ray.origin.copy(this.controls.getObject().position);
+    let frontintersections = this.frontRaycaster.intersectObjects(objects);
+    let frontBump = frontintersections.length > 0;
+
+    this.backRaycaster.ray.origin.copy(this.controls.getObject().position);
+    let backintersections = this.backRaycaster.intersectObjects(objects);
+    let backBump = backintersections.length > 0;
+
+    this.rightRaycaster.ray.origin.copy(this.controls.getObject().position);
+    let rightintersections = this.rightRaycaster.intersectObjects(objects);
+    let rightBump = rightintersections.length > 0;
+
+    this.leftRaycaster.ray.origin.copy(this.controls.getObject().position);
+    let leftintersections = this.leftRaycaster.intersectObjects(objects);
+    let leftBump = leftintersections.length > 0;
+
+    
     let time = Date.now();
     let delta = (time - this.prevTime) / 800;
 
@@ -57,6 +106,8 @@ class MainCharacter {
     this.direction.z = Number(this.moveForward) - Number(this.moveBackward);
     this.direction.x = Number(this.moveRight) - Number(this.moveLeft);
     this.direction.normalize(); // this ensures consistent movements in all directions
+
+    
 
     if (this.moveForward || this.moveBackward)
       this.velocity.z -= this.direction.z * 400.0 * delta;
@@ -68,6 +119,23 @@ class MainCharacter {
       this.velocity.y = Math.max(0, this.velocity.y);
       this.canJump = true;
     }
+
+    if (frontBump === true){
+      this.velocity.z = Math.max(0, this.velocity.z);
+    }
+
+    if (backBump === true){
+      this.velocity.z = Math.min(0, this.velocity.z);
+    }
+
+    if (rightBump === true){
+      this.velocity.x = Math.max(0, this.velocity.x);
+    }
+
+    if (leftBump === true){
+      this.velocity.x = Math.min(0, this.velocity.x);
+    }
+
     this.controls.moveRight(-this.velocity.x * delta);
     this.controls.moveForward(-this.velocity.z * delta);
 
@@ -78,9 +146,12 @@ class MainCharacter {
       this.controls.getObject().position.y = 10;
       this.canJump = true;
     }
+
     this.characterGroup.position.set(this.camera.position.x, this.camera.position.y, this.camera.position.z);
     this.prevTime = time;
     this.renderer.render(this.scene, this.camera);
+
+    
   }
 
   resize(canvasWidth, canvasHeight) {
