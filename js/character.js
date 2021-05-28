@@ -155,7 +155,7 @@ class MainCharacter {
 
   attack(event) {
     if (this.actualWeapon.type != "knife"){
-      this.actualWeapon.attack(event, this.scene);
+      this.actualWeapon.attack(event, this.scene, this.camera.position);
     }else{
       this.actualWeapon.attack(event);
     }

@@ -14,14 +14,14 @@ class Rifle {
     });
   }
 
-  async attack(event, bulletsGroup) {
+  async attack(event, scene, cameraPosition) {
     if (!this.isAttacking) {
       this.isAttacking = true;
       console.log("Attacking rifle");
       console.log(event);
       let xRotation = 0.2;
       this.group.rotation.x += xRotation;
-      new Bullet(bulletsGroup);
+      new Bullet(scene, cameraPosition);
       await this.sleep(100);
       this.group.rotation.x -= xRotation;
       this.isAttacking = false;
