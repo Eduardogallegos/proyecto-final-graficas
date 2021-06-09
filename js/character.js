@@ -18,7 +18,11 @@ class MainCharacter {
   );
 
   frontRaycaster = new THREE.Raycaster(
-    new THREE.Vector3(), //CAMARA + DONDE VE LA CAMARA raycater.ray.setcamera
+    new THREE.Vector3(),
+    //this.camera,
+    //this.frontRaycaster.ray.setFromCamera(this.scene, this.camera), //CAMARA + DONDE VE LA CAMARA raycater.ray.setcamera
+    // Entender que tenemos que hay que mandarle si uso setCamera(mosue,camera)
+    // crosspoint
     new THREE.Vector3(0,0,-1),
     0,
     5
@@ -107,8 +111,7 @@ class MainCharacter {
     this.direction.x = Number(this.moveRight) - Number(this.moveLeft);
     this.direction.normalize(); // this ensures consistent movements in all directions
 
-    
-
+    //LOGICA PARA NO ATRAVESAR COSAS
     if (this.moveForward || this.moveBackward)
       this.velocity.z -= this.direction.z * 400.0 * delta;
 

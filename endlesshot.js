@@ -217,77 +217,14 @@ function createScene(canvas) {
   scene.add ( highGroundFloor );
   objects.push ( highGroundFloor );
   
-  //STAIRS
-  let geometrystairs1 = new THREE.BoxGeometry(100,225,50);
-  let testMaterial = new THREE.MeshBasicMaterial ( { color: 0xebeb34 })
-  let stairs1 = new THREE.Mesh(geometrystairs1, materialStructure);
-
-  stairs1.position.set(950,43,-825);
-  scene.add( stairs1 );
-  objects.push( stairs1 );
-
-  let geometrystairs2 = new THREE.BoxGeometry(100,200,50);
-  let stairs2 = new THREE.Mesh(geometrystairs2, materialStructure);
-
-  stairs2.position.set(950,30,-775);
-  scene.add( stairs2 );
-  objects.push( stairs2 );
-
-  let geometrystairs3 = new THREE.BoxGeometry(100,180,50);
-  let stairs3 = new THREE.Mesh(geometrystairs3, materialStructure);
-
-  stairs3.position.set(950,20,-725);
-  scene.add( stairs3 );
-  objects.push( stairs3 );
-
-  let geometrystairs4 = new THREE.BoxGeometry(100,160,50);
-  let stairs4 = new THREE.Mesh(geometrystairs4, materialStructure);
-
-  stairs4.position.set(950,10,-675);
-  scene.add( stairs4 );
-  objects.push( stairs4 );
-
-  let geometrystairs5 = new THREE.BoxGeometry(100,140,50);
-  let stairs5 = new THREE.Mesh(geometrystairs5, materialStructure);
-
-  stairs5.position.set(950,0,-625);
-  scene.add( stairs5 );
-  objects.push( stairs5 );
-
-  let geometrystairs6 = new THREE.BoxGeometry(100,120,50);
-  let stairs6 = new THREE.Mesh(geometrystairs6, materialStructure);
-
-  stairs6.position.set(950,-10,-575);
-  scene.add( stairs6 );
-  objects.push( stairs6 );
-
-  let geometrystairs7 = new THREE.BoxGeometry(100,100,50);
-  let stairs7 = new THREE.Mesh(geometrystairs7, materialStructure);
-
-  stairs7.position.set(950,-20,-525);
-  scene.add( stairs7 );
-  objects.push( stairs7 );
-
-  let geometrystairs8 = new THREE.BoxGeometry(100,80,50);
-  let stairs8 = new THREE.Mesh(geometrystairs8, materialStructure);
-
-  stairs8.position.set(950,-30,-475);
-  scene.add( stairs8 );
-  objects.push( stairs8 );
-
-  let geometrystairs9 = new THREE.BoxGeometry(100,120,50);
-  let stairs9 = new THREE.Mesh(geometrystairs9, materialStructure);
-
-  stairs9.position.set(950,-10,-575);
-  scene.add( stairs9 );
-  objects.push( stairs9 );
+  //let testMaterial = new THREE.MeshBasicMaterial ( { color: 0xebeb34 })
 
   //RAMPA
-  let geometryRampa = new THREE.BoxGeometry(100,400,50);
-  let rampa = new THREE.Mesh(geometryRampa, testMaterial);
+  let geometryRampa = new THREE.BoxGeometry(200,400,50);
+  let rampa = new THREE.Mesh(geometryRampa, materialStructure);
 
-  rampa.position.set(950, 50,-600);
-  rampa.rotation.x = - Math.PI / 3;
+  rampa.position.set(900, 39, -688);
+  rampa.rotation.x = (-61.5 * Math.PI )/ 180;
   scene.add( rampa );
   objects.push( rampa );
 
