@@ -170,14 +170,13 @@ class MainCharacter {
     this.bullets.forEach(bullet=>{
       bullet.update(2);
       let sceneIntersects = bullet.raycaster.intersectObjects(objects);
-      console.log(bullet.raycaster)
       // let enemyIntersects = bullet.raycaster.intersectObjects(enemies);
       let sceneBump = sceneIntersects.length > 0;
       // let enemyBump = enemyIntersects.lenght > 0;
 
       if (sceneBump === true){
-        console.log(this.bullets.indexOf(bullet))
         this.bullets.splice(this.bullets.indexOf(bullet), 1);
+        bullet.bulletGroup.children = [];
       }
       /* if (enemyBump === true){
         this.bullets.splice(this.bullets.indexOf(bullet), 1);
@@ -185,8 +184,6 @@ class MainCharacter {
         enemies[enemies.indexOf(deadEnemy)].die();
       } */
     });
-    console.log("Balas")
-    console.log(this.bullets)
   }
 
   resize(canvasWidth, canvasHeight) {
