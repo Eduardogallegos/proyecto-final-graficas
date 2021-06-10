@@ -15,6 +15,7 @@ let currentTime = Date.now();
 let duration = 15000; // ms
 
 const floorUrl = "../images/checker_large.gif";
+const cubeUrl = "../images/wooden_crate_2.png";
 
 function onKeyDown(event) {
   switch (event.keyCode) {
@@ -109,7 +110,7 @@ function createScene(canvas) {
   enemy3 = new Enemy(renderer,scene,15, -70, 100,0)
   enemy4 = new Enemy(renderer,scene,15, -70, 150,5)
   enemy5 = new Enemy(renderer,scene,15, -70, -100,5)
-  let light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.75);
+  let light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.3);
   light.position.set(0.5, 1, 0.75);
   scene.add(light);
 
@@ -117,7 +118,6 @@ function createScene(canvas) {
   document.addEventListener("keyup", onKeyUp, false);
 
   // floor
-
   let map = new THREE.TextureLoader().load(floorUrl);
   map.wrapS = map.wrapT = THREE.RepeatWrapping;
   map.repeat.set(8, 8);
@@ -135,13 +135,112 @@ function createScene(canvas) {
   floor.position.set(0, -70, 0);
   scene.add(floor);
 
+  let wallGeometry = new THREE.PlaneGeometry(2000, 500, 50, 50);
+  //front
+  let wall1 = new THREE.Mesh(
+    wallGeometry,
+    new THREE.MeshPhongMaterial({
+      color: 0xff0000 //red
+    })
+  );
+
+  wall1.position.set(0,180,-1000);
+  scene.add(wall1);
+  objects.push( wall1 );
+
+  //back
+  let wall2 = new THREE.Mesh(
+    wallGeometry,
+    new THREE.MeshPhongMaterial({
+      color: 0xceeff00 //yellow
+    })
+  );
+
+  wall2.rotation.y = Math.PI;
+  wall2.position.set(0,180,1000);
+  scene.add(wall2);
+  objects.push( wall2 );
+
+  //RIGHT
+  let wall3 = new THREE.Mesh(
+    wallGeometry,
+    new THREE.MeshPhongMaterial({
+      color: 0x00ff0d //green
+    })
+  );
+
+  wall3.rotation.y = - Math.PI / 2;
+  wall3.position.set(1000,180,0);
+  scene.add(wall3);
+  objects.push( wall3 );
+
+  //LEFT
+  let wall4 = new THREE.Mesh(
+    wallGeometry,
+    new THREE.MeshPhongMaterial({
+      color: 0x0400ff //blue
+    })
+  );
+
+  wall4.rotation.y = Math.PI / 2;
+  wall4.position.set(-1000,180,0);
+  scene.add(wall4);
+  objects.push( wall4 );
+
+  //BOC
+  let boxGeometry = new THREE.BoxGeometry( 50, 50, 50 );
+  let cubeMap = new THREE.TextureLoader().load(cubeUrl);
+
+  let boxMaterial = new THREE.MeshPhongMaterial( { specular: 0xffffff, flatShading: true, map:cubeMap } );
+        let box = new THREE.Mesh( boxGeometry, boxMaterial );
+        box.position.set(0,-10,0);
+
+        scene.add( box );
+        objects.push( box );
+
+  // COLUMNA CON CYLINDER GEOMETRY
+  let geometryColumn = new THREE.CylinderGeometry( 100, 100, 225, 32 );
+  let materialStructure = new THREE.MeshBasicMaterial( {color: 0x000000 } );
+  let column = new THREE.Mesh( geometryColumn, materialStructure );
+  
+  column.position.set(-550, 43,-800);
+  scene.add( column ); 
+  objects.push ( column );
+
+  //HIGH HGROUND
+  let geometryHighGround = new THREE.BoxGeometry(200,225,178);
+  let highGround = new THREE.Mesh(geometryHighGround, materialStructure);
+
+  highGround.rotation.y = Math.PI / 2;
+  highGround.position.set(-550,43,-900);
+  scene.add ( highGround );
+  objects.push ( highGround );
+
+  let geometryHighGroundFloor = new THREE.BoxGeometry(1600,50,150);
+  let highGroundFloor = new THREE.Mesh(geometryHighGroundFloor, materialStructure);
+
+  highGroundFloor.position.set(200,130.5,-925);
+  scene.add ( highGroundFloor );
+  objects.push ( highGroundFloor );
+  
+  //let testMaterial = new THREE.MeshBasicMaterial ( { color: 0xebeb34 })
+
+  //RAMPA
+  let geometryRampa = new THREE.BoxGeometry(200,400,50);
+  let rampa = new THREE.Mesh(geometryRampa, materialStructure);
+
+  rampa.position.set(900, 39, -688);
+  rampa.rotation.x = (-61.5 * Math.PI )/ 180;
+  scene.add( rampa );
+  objects.push( rampa );
+
   //ASSETS
-  // Load walls && house assets
+  // TANK
   loadFBX(
-    "./models/house.fbx",
+    "./models/US_Tank/US_Sherman_Tank.fbx",
     {
-      position: new THREE.Vector3(0, -74, -20),
-      scale: new THREE.Vector3(0.05, 0.05, 0.05),
+      position: new THREE.Vector3(-800, -74, -600),
+      scale: new THREE.Vector3(0.65, 0.65, 0.65),
     },
     objects
   );
@@ -171,7 +270,8 @@ function setVectorValue(vector, configuration, property, initialValues) {
 async function loadFBX(fbxModelUrl, configuration, arr) {
   try {
     let object = await new FBXLoader().loadAsync(fbxModelUrl);
-
+    console.log(object);
+    
     setVectorValue(
       object.position,
       configuration,
@@ -190,6 +290,14 @@ async function loadFBX(fbxModelUrl, configuration, arr) {
       "rotation",
       new THREE.Vector3(0, 0, 0)
     );
+
+    if (object.children.length > 0){
+      object.children.forEach(chamaco => {
+        if (chamaco.type == "Mesh"){
+          arr.push(chamaco);
+        }
+      });
+    }
 
     arr.push(object);
 
@@ -218,7 +326,7 @@ function update() {
 
   if (mainChar.areControlsLocked()) {
     // Manage enemies
-    loadEnemies;
+    // loadEnemies;
     //for (const enemy of enemies) if (enemy) Enemy.update(enemy);
     mainChar.update(objects);
   }
