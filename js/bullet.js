@@ -1,27 +1,33 @@
 import * as THREE from "../libs/three.js/r125/three.module.js";
 
 class Bullet {
-  constructor(scene, position) {
+  bulletSize = 0.8;
+  trailSize = 3;
+  speed = 1;
+
+  constructor(scene, position, direction) {
     this.scene = scene;
-    // let defaultDirection = new THREE.Vector3(0, 0, 0);
-    // let bulletList = [];
-    let bulletSize = 0.6;
-    let trailSize = 3;
-    let mat = new THREE.MeshBasicMaterial({ color: 0x3c2f2f });
-    let trailMat = new THREE.MeshBasicMaterial({ color: 0xff3153 }); //, transparent:true, opacity:0.5} );
-    let mesh = new THREE.Mesh(
-      new THREE.SphereGeometry(bulletSize, 32, 32),
+    this.direction = direction;
+    let mat = new THREE.MeshBasicMaterial({ color: 0xff3153 });
+    this.mesh = new THREE.Mesh(
+      new THREE.SphereGeometry(this.bulletSize, 32, 32),
       mat
     );
-    let trail = new THREE.Mesh(
-      new THREE.CylinderGeometry(bulletSize, 0, trailSize, 3),
-      trailMat
+    this.bulletGroup = new THREE.Object3D();
+    this.bulletGroup.add(this.mesh);
+    this.bulletGroup.position.set(position.x, position.y - 2, position.z);
+    this.raycaster = new THREE.Raycaster(
+      new THREE.Vector3(),
+      new THREE.Vector3(-direction.x, 0, -direction.z),
+      0,
+      2
     );
-    mesh.add(trail);
-    let bulletGroup = new THREE.Object3D();
-    bulletGroup.add(mesh);
-    bulletGroup.position.set(position.x, position.y - 2, position.z);
-    this.scene.add(bulletGroup);
+    this.scene.add(this.bulletGroup);
+  }
+
+  update(delta) {
+    this.mesh.translateOnAxis(this.direction, this.speed * delta);
+    this.raycaster.ray.origin.copy(this.mesh.position);
   }
 }
 

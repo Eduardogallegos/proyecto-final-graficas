@@ -14,11 +14,11 @@ class Knife {
     });
   }
 
-  async attack(event) {
+  async attack(event, position) {
     if (!this.isAttacking) {
       this.isAttacking = true;
       console.log("Attacking knife");
-      console.log(event);
+      console.log(event, position);
       let xRotation = 0.3;
       let yRotation = 0.5;
       this.group.rotation.x += xRotation;

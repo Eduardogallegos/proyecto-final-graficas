@@ -106,11 +106,11 @@ function createScene(canvas) {
   // groundColor - (optional) hexadecimal color of the ground. Default is 0xffffff.
   // intensity - (optional) numeric value of the light's strength/intensity. Default is 1.
   mainChar = new MainCharacter(renderer, scene)
-  enemy = new Enemy(renderer,scene,15, -70, -150,0)
-  enemy2 = new Enemy(renderer,scene,-50, -70, -100,1)
-  enemy3 = new Enemy(renderer,scene,15, -70, 100,0)
-  enemy4 = new Enemy(renderer,scene,15, -70, 150,5)
-  enemy5 = new Enemy(renderer,scene,15, -70, -100,5)
+  // enemy = new Enemy(renderer,scene,15, -70, -150,0)
+  // enemy2 = new Enemy(renderer,scene,-50, -70, -100,1)
+  // enemy3 = new Enemy(renderer,scene,15, -70, 100,0)
+  // enemy4 = new Enemy(renderer,scene,15, -70, 150,5)
+  // enemy5 = new Enemy(renderer,scene,15, -70, -100,5)
   let ambientlight = new THREE.AmbientLight(0xffffff, 0.2);
   ambientlight.position.set(0.5, 1, 0.75);
   scene.add(ambientlight);
@@ -336,7 +336,7 @@ function update() {
     // Manage enemies
     // loadEnemies;
     //for (const enemy of enemies) if (enemy) Enemy.update(enemy);
-    mainChar.update(objects);
+    mainChar.update(objects, enemies);
   }
 }
 
