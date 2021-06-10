@@ -6,7 +6,7 @@ import { Enemy } from "../js/enemy.js";
 let scene,
   renderer,
   mainChar,
-  enemy;
+  enemy, enemy2,enemy3, enemy4;
 
 let objects = [],
   enemies = [];
@@ -105,9 +105,10 @@ function createScene(canvas) {
   // groundColor - (optional) hexadecimal color of the ground. Default is 0xffffff.
   // intensity - (optional) numeric value of the light's strength/intensity. Default is 1.
   mainChar = new MainCharacter(renderer, scene)
-  enemy = new Enemy(renderer,scene, mainChar.camera.position.x , mainChar.camera.position.y - 70, mainChar.camera.position.z -200, 0);
-  
-  
+  enemy = new Enemy(renderer,scene, mainChar.camera.position.x , mainChar.camera.position.y - 70, mainChar.camera.position.z -400, 0);
+  enemy2 = new Enemy(renderer,scene, mainChar.camera.position.x- 150, mainChar.camera.position.y - 70, mainChar.camera.position.z -400, .5);
+  enemy3 = new Enemy(renderer,scene, mainChar.camera.position.x + 150, mainChar.camera.position.y - 70, mainChar.camera.position.z -400, -.5);
+  enemy4 = new Enemy(renderer,scene, mainChar.camera.position.x- 350, mainChar.camera.position.y - 70, mainChar.camera.position.z -400, .7);
   let light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.3);
   light.position.set(0.5, 1, 0.75);
   scene.add(light);
@@ -313,7 +314,7 @@ function loadEnemies() {
  
   if (!enemies.length) {
     
-    enemies.push(enemy);
+    enemies.push(enemy,enemy2, enemy3, enemy4);
     console.log(enemies);
   }
 
