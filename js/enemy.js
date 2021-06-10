@@ -52,14 +52,17 @@ class Enemy {
          
     // }
 
-    // static update(enemy) {
-    //     let now = Date.now();
-    //     let deltat = now - this.currentTime;
-    //     this.currentTime = now;
-    //     let fract = deltat / this.duration;
-    //     let angle = Math.PI * 2 * fract;
-    //     if (enemy) enemy.rotation.y += angle / 2;
-    // }
+    updatepPosition(){
+      
+    }
+    static update(enemy) {
+        let now = Date.now();
+        let deltat = now - this.currentTime;
+        this.currentTime = now;
+        let fract = deltat / this.duration;
+        let angle = Math.PI * 2 * fract;
+        if (enemy) enemy.rotation.y += angle / 2;
+    }
 
 
       setVectorValue(vector, configuration, property, initialValues) {

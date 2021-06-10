@@ -322,6 +322,9 @@ function loadEnemies() {
 
 function update() {
   requestAnimationFrame(update);
+  if(mainChar.changeDirection()){
+    
+  }
 
   if (mainChar.areControlsLocked()) {
     // Manage enemies
