@@ -30,11 +30,12 @@ class Enemy {
 
       
     }
-   
-    
+    //enemies.splice(enemies.indexOf(this),1);
+    //cubes_group.children =  cubes
     // saca enemigos del grupo
-    destroy(){
-      this.enemyGroup.remove(enemyGroup.children);
+    destroy(enemies,index){
+      enemies.splice(enemies.indexOf(index),1);
+      this.enemyGroup.children = enemies
     }
 
     // pone posicion nueva de enemigos en cuanto a la camara
@@ -73,8 +74,7 @@ async loadFBX(fbxModelUrl, configuration, ) {
     try {
       let object = await new FBXLoader().loadAsync(fbxModelUrl);
       console.log(object)
-
-
+      this.mesh = object;
 
     object.mixer = new THREE.AnimationMixer( this.scene );
         
