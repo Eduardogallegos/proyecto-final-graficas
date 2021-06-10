@@ -1,11 +1,13 @@
 import * as THREE from "../libs/three.js/r125/three.module.js";
 import { PointerLockControls } from "../libs/three.js/r125/controls/PointerLockControls.js";
-import { FBXLoader } from "../libs/three.js/r125/loaders/FBXLoader.js";
+import { Knife } from "./knife.js";
+import { Gun } from "./gun.js";
+import { Rifle } from "./rifle.js";
 
 class MainCharacter {
 
   camera = new THREE.PerspectiveCamera(
-    45,
+    450,
     window.innerWidth / window.innerHeight,
     1,
     1000
@@ -61,23 +63,24 @@ class MainCharacter {
   playerSpeed = 5;
   wallDistance = 0.1;
   prevTime = Date.now();
-  characterGroup =  new THREE.Object3D();
+  weaponsGroup = new THREE.Object3D();
+  bulletsGroup = new THREE.Object3D();
+  actualWeapon = new Knife(this.weaponsGroup);
 
   constructor(renderer, scene) {
     this.scene = scene;
-    this.scene.add(this.characterGroup);
+    this.camera.add(this.weaponsGroup);
     this.renderer = renderer;
     this.initPointerLock();
-    this.loadFBX(
-        "../models/hands/Rigged Hand.fbx",
-        {
-        position: new THREE.Vector3(15, -100, 15),
-        scale: new THREE.Vector3(100, 100, 100),
-        }
+    this.drawPointer();
+    let ctx = this;
+    document.addEventListener(
+      "mousedown",
+      function (e) {
+        ctx.attack(e);
+      },
+      false
     );
-    // let container = document.getElementById("container")
-    // container.addEventListener("scroll", this.changeWeapon, false);
-    // container.addEventListener("click", this.attack, false);
   }
 
   update(objects) {
@@ -177,6 +180,18 @@ class MainCharacter {
     this.camera.updateProjectionMatrix();
   }
 
+  drawPointer() {
+    let pointerGeometry = new THREE.SphereGeometry(0.01, 32, 32);
+    let pointerMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    let pointer = new THREE.Mesh(pointerGeometry, pointerMaterial);
+    let pointerGroup = new THREE.Object3D();
+    pointerGroup.add(pointer);
+    pointerGroup.position.set(
+      0, 0, -2
+    )
+    this.camera.add(pointerGroup);
+  }
+
   initPointerLock() {
     let blocker = document.getElementById("blocker");
     let instructions = document.getElementById("instructions");
@@ -203,71 +218,40 @@ class MainCharacter {
     this.scene.add(this.controls.getObject());
   }
 
-  setVectorValue(vector, configuration, property, initialValues) {
-    if (configuration !== undefined) {
-      if (property in configuration) {
-        console.log("setting:", property, "with", configuration[property]);
-        vector.set(
-          configuration[property].x,
-          configuration[property].y,
-          configuration[property].z
-        );
-        return;
-      }
-    }
-
-    console.log("setting:", property, "with", initialValues);
-    vector.set(initialValues.x, initialValues.y, initialValues.z);
-  }
-
-  async loadFBX(fbxModelUrl, configuration) {
-    try {
-      let object = await new FBXLoader().loadAsync(fbxModelUrl);
-      console.log(object)
-
-    //   object.castShadow = true;
-    //     object. receiveShadow = true;
-
-    //     object.mixer = new THREE.AnimationMixer( this.scene );
-        
-    //     object.action = object.mixer.clipAction( object.animations[2], object).setDuration( 0.041 )
-    //     object.action.play();
-      this.setVectorValue(
-        object.position,
-        configuration,
-        "position",
-        new THREE.Vector3(0, 0, 0)
-      );
-      this.setVectorValue(
-        object.scale,
-        configuration,
-        "scale",
-        new THREE.Vector3(1, 1, 1)
-      );
-      this.setVectorValue(
-        object.rotation,
-        configuration,
-        "rotation",
-        new THREE.Vector3(0, 0, 0)
-      );
-
-      this.characterGroup.add(object);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   areControlsLocked = () => this.controls.isLocked;
 
-  changeWeapon(event) {
-    console.log("Changing weapon" + event);
-  }
   changeWeaponEnum(index) {
-    console.log("Changing weapon @ " + index);
+    switch (index) {
+      case 1:
+        if (this.actualWeapon.type != "knife") {
+          this.weaponsGroup.children = [];
+          this.actualWeapon = new Knife(this.weaponsGroup);
+        }
+        break;
+      case 2:
+        if (this.actualWeapon.type != "gun") {
+          this.weaponsGroup.children = [];
+          this.actualWeapon = new Gun(this.weaponsGroup);
+        }
+        break;
+      case 3:
+        if (this.actualWeapon.type != "rifle") {
+          this.weaponsGroup.children = [];
+          this.actualWeapon = new Rifle(this.weaponsGroup);
+        }
+        break;
+    }
   }
+
   attack(event) {
-    console.log("Attacking" + event);
+    if (this.actualWeapon.type != "knife"){
+      this.actualWeapon.attack(event, this.scene, this.camera.position);
+    }else{
+      this.actualWeapon.attack(event);
+    }
+    
   }
+
   changeDirection(newDirection) {
     switch (newDirection) {
       case 0:

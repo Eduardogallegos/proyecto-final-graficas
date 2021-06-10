@@ -1,11 +1,12 @@
 import { FBXLoader } from "../libs/three.js/r125/loaders/FBXLoader.js";
 import * as THREE from "../libs/three.js/r125/three.module.js";
-import { MainCharacter } from "../js/character.js"
-import { Mesh } from "./libs/three.js/r125/three.module.js";
+import { MainCharacter } from "../js/character.js";
+import { Enemy } from "../js/enemy.js";
 
 let scene,
   renderer,
-  mainChar;
+  mainChar,
+  enemy,enemy2,enemy3,enemy4,enemy5;
 
 let objects = [],
   enemies = [];
@@ -104,7 +105,12 @@ function createScene(canvas) {
   // groundColor - (optional) hexadecimal color of the ground. Default is 0xffffff.
   // intensity - (optional) numeric value of the light's strength/intensity. Default is 1.
   mainChar = new MainCharacter(renderer, scene)
-  let light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.3);
+  enemy = new Enemy(renderer,scene,15, -70, -150,0)
+  enemy2 = new Enemy(renderer,scene,-50, -70, -100,1)
+  enemy3 = new Enemy(renderer,scene,15, -70, 100,0)
+  enemy4 = new Enemy(renderer,scene,15, -70, 150,5)
+  enemy5 = new Enemy(renderer,scene,15, -70, -100,5)
+  let light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.75);
   light.position.set(0.5, 1, 0.75);
   scene.add(light);
 
@@ -306,16 +312,13 @@ function loadEnemies() {
    * Function called on every frame to keep the number of enemies on the scene
    * Until now keep it as 1 enemy
    */
+ 
   if (!enemies.length) {
-    loadFBX(
-      "./models/enemy/uga-uga/uga-uga.fbx",
-      {
-        position: new THREE.Vector3(0, -15, -150),
-        scale: new THREE.Vector3(1, 1, 1),
-      },
-      enemies
-    );
+    
+    enemies.push(enemy,enemy2,enemy3,enemy4,enemy5);
+    console.log(enemies);
   }
+
 }
 
 function update() {
@@ -323,21 +326,12 @@ function update() {
 
   if (mainChar.areControlsLocked()) {
     // Manage enemies
-    loadEnemies();
-    moveEnemies();
+    loadEnemies;
+    //for (const enemy of enemies) if (enemy) Enemy.update(enemy);
     mainChar.update(objects);
   }
 }
 
-function moveEnemies() {
-  let now = Date.now();
-  let deltat = now - currentTime;
-  currentTime = now;
-  let fract = deltat / duration;
-  let angle = Math.PI * 2 * fract;
-
-  for (const object of enemies) if (object) object.rotation.y += angle / 2;
-}
 
 function main() {
   const canvas = document.getElementById("webglcanvas");
@@ -352,7 +346,7 @@ function resize() {
   canvas.height = document.body.clientHeight;
   
   mainChar.resize(canvas.width, canvas.height);
-
+ 
   renderer.setSize(canvas.width, canvas.height);
 }
 
