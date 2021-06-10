@@ -89,12 +89,7 @@ class MainCharacter {
 
     let time = Date.now();
     let delta = (time - this.prevTime) / 800;
-
-    // this.velocity.x -= this.velocity.x * this.playerSpeed * delta;
-    // this.velocity.z -= this.velocity.z * this.playerSpeed * delta;
     this.velocity.y -= 10 * 100.0 * delta; // 100.0 = mass
-    //this.direction.z = Number(this.moveForward) - Number(this.moveBackward);
-    //this.direction.x = Number(this.moveRight) - Number(this.moveLeft);
     this.direction.normalize(); // this ensures consistent movements in all directions
     
     this.downRaycaster.ray.origin.copy(this.controls.getObject().position);
@@ -111,56 +106,16 @@ class MainCharacter {
     this.raycasterWalls.ray.direction.copy(vectorDir);
     let intersectionWalls = this.raycasterWalls.intersectObjects(objects);
 
-    if ( this.moveForward && !(dirCopy.z!== 0 && intersectionWalls.length >= 1)) this.controls.getObject().translateZ(-this.playerSpeed * delta * 100);
-    if ( this.moveBackward && !(dirCopy.z!==0 && intersectionWalls.length >= 1)) this.controls.getObject().translateZ(this.playerSpeed * delta * 100);
-    if ( this.moveLeft && !(dirCopy.x!==0 && intersectionWalls.length >= 1)) this.controls.getObject().translateX(-this.playerSpeed * delta * 100);
-    if ( this.moveRight && !(dirCopy.x!==0 && intersectionWalls.length >= 1)) this.controls.getObject().translateX(this.playerSpeed * delta * 100);
-
-
-
-    // let frontBump = frontintersections.length > 0;
-    // this.backRaycaster.ray.origin.copy(this.controls.getObject().position);
-    // let backintersections = this.backRaycaster.intersectObjects(objects);
-    // let backBump = backintersections.length > 0;
-
-    // this.rightRaycaster.ray.origin.copy(this.controls.getObject().position);
-    // let rightintersections = this.rightRaycaster.intersectObjects(objects);
-    // let rightBump = rightintersections.length > 0;
-
-    // this.leftRaycaster.ray.origin.copy(this.controls.getObject().position);
-    // let leftintersections = this.leftRaycaster.intersectObjects(objects);
-    // let leftBump = leftintersections.length > 0;
-
-    
-    // MOVIMIENTO
-    // if (this.moveForward || this.moveBackward)
-    //   this.velocity.z -= this.direction.z * 800.0 * delta;
-
-    // if (this.moveLeft || this.moveRight)
-    //   this.velocity.x -= this.direction.x * 800.0 * delta;
+    if ( this.moveForward && !(dirCopy.z!== 0 && intersectionWalls.length >= 1)) this.controls.getObject().translateZ(-this.playerSpeed * delta * 50);
+    if ( this.moveBackward && !(dirCopy.z!==0 && intersectionWalls.length >= 1)) this.controls.getObject().translateZ(this.playerSpeed * delta * 50);
+    if ( this.moveLeft && !(dirCopy.x!==0 && intersectionWalls.length >= 1)) this.controls.getObject().translateX(-this.playerSpeed * delta * 50);
+    if ( this.moveRight && !(dirCopy.x!==0 && intersectionWalls.length >= 1)) this.controls.getObject().translateX(this.playerSpeed * delta * 50);
 
     // SALTO
     if (downintersections.length > 0 === true) {
       this.velocity.y = Math.max(0, this.velocity.y);
       this.canJump = true;
     }
-
-    //LOGICA PARA NO ATRAVESAR COSAS
-    // if (frontBump === true){
-    //   this.velocity.z = Math.max(0, this.velocity.z);
-    // }
-    // if (backBump === true){
-    //   this.velocity.z = Math.min(0, this.velocity.z);
-    // }
-    // if (rightBump === true){
-    //   this.velocity.x = Math.max(0, this.velocity.x);
-    // }
-    // if (leftBump === true){
-    //   this.velocity.x = Math.min(0, this.velocity.x);
-    // }
-
-    // this.controls.moveRight(-this.velocity.x * delta);
-    // this.controls.moveForward(-this.velocity.z * delta);
 
     this.controls.getObject().position.y += this.velocity.y * delta; // new behavior
 
