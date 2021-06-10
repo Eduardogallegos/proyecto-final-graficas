@@ -6,7 +6,8 @@ import { Loader } from "./js/loader.js";
 
 let scene,
   renderer,
-  mainChar;
+  mainChar,
+  loader;
 
 let objects = [],
   enemies = [];
@@ -104,7 +105,7 @@ function createScene(canvas) {
   // groundColor - (optional) hexadecimal color of the ground. Default is 0xffffff.
   // intensity - (optional) numeric value of the light's strength/intensity. Default is 1.
   mainChar = new MainCharacter(renderer, scene)
-
+  loader = new Loader(scene,objects);
   let ambientlight = new THREE.AmbientLight(0xffffff, 0.2);
   ambientlight.position.set(0.5, 1, 0.75);
   scene.add(ambientlight);
@@ -214,7 +215,7 @@ function loadEnemies() {
 function update() {
   requestAnimationFrame(update);
   // actualiza posicion de enemigos en cuanto a la camara del jugador 
-  if(mainChar.moveForward || mainChar.moveBackward  || mainChar.moveLeft || mainChar.moveRight){
+  if(mainChar.moveBackward  || mainChar.moveLeft || mainChar.moveRight){
     // for (const enemy of enemies) {
     //   enemies[2].updatePosition(mainChar.camera.position.x , mainChar.camera.position.y - 70, mainChar.camera.position.z -400, 0);
     // } 
