@@ -121,7 +121,7 @@ class Loader {
         //let testMaterial = new THREE.MeshBasicMaterial ( { color: 0xebeb34 })
 
         //RAMPA
-        let geometryRampa = new THREE.BoxGeometry(200, 400, 50);
+        let geometryRampa = new THREE.BoxGeometry(400, 400, 50);
         let rampa = new THREE.Mesh(geometryRampa, materialStructure);
 
         rampa.position.set(900, 39, -688);
