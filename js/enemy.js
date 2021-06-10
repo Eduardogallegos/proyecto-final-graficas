@@ -74,8 +74,7 @@ async loadFBX(fbxModelUrl, configuration, ) {
     try {
       let object = await new FBXLoader().loadAsync(fbxModelUrl);
       console.log(object)
-
-
+      this.mesh = object;
 
     object.mixer = new THREE.AnimationMixer( this.scene );
         
