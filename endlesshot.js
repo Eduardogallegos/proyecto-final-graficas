@@ -313,7 +313,10 @@ function loadEnemies() {
    */
  
   if (!enemies.length) {
-    enemies.push(new Enemy(renderer,scene, mainChar.camera.position.x , mainChar.camera.position.y - 70, mainChar.camera.position.z -400, 0));
+    enemies.push(new Enemy(renderer,scene, mainChar.camera.position.x , mainChar.camera.position.y - 70, mainChar.camera.position.z -300, 0),
+    new Enemy(renderer,scene, mainChar.camera.position.x- 150, mainChar.camera.position.y - 70, mainChar.camera.position.z -200, .5),
+    new Enemy(renderer,scene, mainChar.camera.position.x- 250, mainChar.camera.position.y - 70, mainChar.camera.position.z -200, .5),
+    new Enemy(renderer,scene, mainChar.camera.position.x + 250, mainChar.camera.position.y - 70, mainChar.camera.position.z -200, -1));
     console.log(enemies);
   }
 

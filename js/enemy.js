@@ -52,6 +52,10 @@ class Enemy {
          
     // }
 
+    destroy(){
+      this.enemyGroup.remove(enemyGroup.children);
+    }
+    
     setPosition(x,y,z){
       this.enemyGroup.position.set(x,y,z)
     }
