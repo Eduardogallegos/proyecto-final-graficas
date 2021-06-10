@@ -8,7 +8,7 @@ class Enemy {
 
     currentTime = Date.now();
     enemyGroup =  new THREE.Object3D();
-    enemies=[];
+    
     duration = 15000; // ms
 
     constructor(renderer, scene, x, y, z, rot) {
@@ -52,10 +52,10 @@ class Enemy {
          
     // }
 
-    updatePosition(renderer,scene,x,y,z){
-      new Enemy(renderer,scene,x,y,z,rot)
-      
+    setPosition(x,y,z){
+      this.enemyGroup.position.set(x,y,z)
     }
+
     static update(enemy) {
         let now = Date.now();
         let deltat = now - this.currentTime;
