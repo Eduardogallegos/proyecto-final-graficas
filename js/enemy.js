@@ -1,22 +1,24 @@
 import * as THREE from "../libs/three.js/r125/three.module.js";
 //import { PointerLockControls } from "../libs/three.js/r125/controls/PointerLockControls.js";
 import { FBXLoader } from "../libs/three.js/r125/loaders/FBXLoader.js";
+import { Rifle } from "./rifle.js";
+import { MainCharacter } from "../js/character.js";
 
 class Enemy {
 
     currentTime = Date.now();
     enemyGroup =  new THREE.Object3D();
+    
     duration = 15000; // ms
 
-    constructor(renderer, scene, x,y,z, rot) {
+    constructor(renderer, scene, x, y, z, rot) {
       this.scene = scene;
       this.scene.add(this.enemyGroup);
       this.renderer = renderer;
       this.x = 0;
       this.y = 0;
       this.z = 0 
-      //this.initPointerLock();
-   
+      
       this.loadFBX(
         "../models/US_Tank_Crew.fbx",
           {
@@ -26,22 +28,19 @@ class Enemy {
           }
       );
 
-      // let container = document.getElementById("container")
-      // container.addEventListener("scroll", this.changeWeapon, false);
-      // container.addEventListener("click", this.attack, false);
+      
     }
    
-    // drawEnemy(array){
-    //     this.loadFBX(
-    //         "../models/enemy/uga-uga/uga-uga.fbx",
-    //           {
-    //           position: new THREE.Vector3(15, -5, -150),
-    //           scale: new THREE.Vector3(1, 1, 1),
-    //           },
-    //           array
-    //       );
-         
-    // }
+    
+    // saca enemigos del grupo
+    destroy(){
+      this.enemyGroup.remove(enemyGroup.children);
+    }
+
+    // pone posicion nueva de enemigos en cuanto a la camara
+    setPosition(x,y,z){
+      this.enemyGroup.position.set(x,y,z)
+    }
 
     static update(enemy) {
         let now = Date.now();
@@ -75,13 +74,12 @@ async loadFBX(fbxModelUrl, configuration, ) {
       let object = await new FBXLoader().loadAsync(fbxModelUrl);
       console.log(object)
 
-    //   object.castShadow = true;
-    //     object. receiveShadow = true;
 
-    //     object.mixer = new THREE.AnimationMixer( this.scene );
+
+    object.mixer = new THREE.AnimationMixer( this.scene );
         
-    //     object.action = object.mixer.clipAction( object.animations[2], object).setDuration( 0.041 )
-    //     object.action.play();
+    object.action = object.mixer.clipAction( object.animations[2], object).setDuration( 0.041 )
+    object.action.play();
       this.setVectorValue(
         object.position,
         configuration,
