@@ -6,8 +6,7 @@ import { Loader } from "./js/loader.js";
 
 let scene,
   renderer,
-  mainChar,
-  enemy, enemy2,enemy3, enemy4;
+  mainChar;
 
 let objects = [],
   enemies = [];
@@ -106,11 +105,6 @@ function createScene(canvas) {
   // intensity - (optional) numeric value of the light's strength/intensity. Default is 1.
   mainChar = new MainCharacter(renderer, scene)
 
-  // enemy = new Enemy(renderer,scene,15, -70, -150,0)
-  // enemy2 = new Enemy(renderer,scene,-50, -70, -100,1)
-  // enemy3 = new Enemy(renderer,scene,15, -70, 100,0)
-  // enemy4 = new Enemy(renderer,scene,15, -70, 150,5)
-  // enemy5 = new Enemy(renderer,scene,15, -70, -100,5)
   let ambientlight = new THREE.AmbientLight(0xffffff, 0.2);
   ambientlight.position.set(0.5, 1, 0.75);
   scene.add(ambientlight);
