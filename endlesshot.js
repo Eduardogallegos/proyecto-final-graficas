@@ -336,7 +336,7 @@ function update() {
     // Manage enemies
     // loadEnemies;
     //for (const enemy of enemies) if (enemy) Enemy.update(enemy);
-    mainChar.update(objects);
+    mainChar.update(objects, enemies);
   }
 }
 
