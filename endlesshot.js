@@ -6,7 +6,8 @@ import { Loader } from "./js/loader.js";
 
 let scene,
   renderer,
-  mainChar;
+  mainChar,
+  loader;
 
 let objects = [],
   enemies = [];
@@ -104,6 +105,7 @@ function createScene(canvas) {
   // groundColor - (optional) hexadecimal color of the ground. Default is 0xffffff.
   // intensity - (optional) numeric value of the light's strength/intensity. Default is 1.
   mainChar = new MainCharacter(renderer, scene)
+  loader = new Loader(scene,objects);
 
   let ambientlight = new THREE.AmbientLight(0xffffff, 0.2);
   ambientlight.position.set(0.5, 1, 0.75);
