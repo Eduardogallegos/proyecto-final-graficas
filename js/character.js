@@ -63,12 +63,14 @@ class MainCharacter {
   playerSpeed = 5;
   wallDistance = 0.1;
   prevTime = Date.now();
+  characterGroup =  new THREE.Object3D();
   weaponsGroup = new THREE.Object3D();
   bulletsGroup = new THREE.Object3D();
   actualWeapon = new Knife(this.weaponsGroup);
 
   constructor(renderer, scene) {
     this.scene = scene;
+    this.scene.add(this.characterGroup);
     this.camera.add(this.weaponsGroup);
     this.renderer = renderer;
     this.initPointerLock();

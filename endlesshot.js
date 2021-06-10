@@ -110,7 +110,7 @@ function createScene(canvas) {
   enemy3 = new Enemy(renderer,scene,15, -70, 100,0)
   enemy4 = new Enemy(renderer,scene,15, -70, 150,5)
   enemy5 = new Enemy(renderer,scene,15, -70, -100,5)
-  let light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.75);
+  let light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.3);
   light.position.set(0.5, 1, 0.75);
   scene.add(light);
 
@@ -326,7 +326,7 @@ function update() {
 
   if (mainChar.areControlsLocked()) {
     // Manage enemies
-    loadEnemies;
+    // loadEnemies;
     //for (const enemy of enemies) if (enemy) Enemy.update(enemy);
     mainChar.update(objects);
   }
