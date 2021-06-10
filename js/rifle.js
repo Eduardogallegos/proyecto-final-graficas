@@ -1,14 +1,35 @@
 import * as THREE from "../libs/three.js/r125/three.module.js";
 import { FBXLoader } from "../libs/three.js/r125/loaders/FBXLoader.js";
+import { Bullet } from "./bullet.js";
 
 class Rifle {
+  type = "rifle";
+  isAttacking = false;
+
   constructor(group) {
-      this.group = group
+    this.group = group;
     this.loadFBX("../models/weapons/MP5.fbx", {
       position: new THREE.Vector3(2, -5, 0),
       scale: new THREE.Vector3(0.02, 0.02, 0.02),
     });
   }
+
+  async attack(event, scene, cameraPosition) {
+    if (!this.isAttacking) {
+      this.isAttacking = true;
+      console.log("Attacking rifle");
+      console.log(event);
+      let xRotation = 0.2;
+      this.group.rotation.x += xRotation;
+      new Bullet(scene, cameraPosition);
+      await this.sleep(100);
+      this.group.rotation.x -= xRotation;
+      this.isAttacking = false;
+    }
+  }
+
+  sleep = (milliseconds) =>
+    new Promise((resolve) => setTimeout(resolve, milliseconds));
 
   setVectorValue(vector, configuration, property, initialValues) {
     if (configuration !== undefined) {
@@ -32,13 +53,6 @@ class Rifle {
       let object = await new FBXLoader().loadAsync(fbxModelUrl);
       console.log(object);
 
-      //   object.castShadow = true;
-      //     object. receiveShadow = true;
-
-      //     object.mixer = new THREE.AnimationMixer( this.scene );
-
-      //     object.action = object.mixer.clipAction( object.animations[2], object).setDuration( 0.041 )
-      //     object.action.play();
       this.setVectorValue(
         object.position,
         configuration,
