@@ -14,7 +14,7 @@ let objects = [],
 let currentTime = Date.now();
 let duration = 15000; // ms
 
-const floorUrl = "../images/checker_large.gif";
+const floorUrl = "../images/metall010-new-tileable.png";
 const cubeUrl = "../images/wooden_crate_2.png";
 
 function onKeyDown(event) {
@@ -44,7 +44,7 @@ function onKeyDown(event) {
       break;
 
     case 32: // space
-      mainChar.jump();
+      mainChar.changeDirection(4)
       duration = 2000;
       break;
     case 49:
@@ -84,7 +84,9 @@ function onKeyUp(event) {
       mainChar.stopDirection(3);
       duration = 15000;
       break;
-    case 32:
+    
+    case 32: //space
+      mainChar.stopDirection(4);
       duration = 15000;
       break;
   }
@@ -105,14 +107,21 @@ function createScene(canvas) {
   // groundColor - (optional) hexadecimal color of the ground. Default is 0xffffff.
   // intensity - (optional) numeric value of the light's strength/intensity. Default is 1.
   mainChar = new MainCharacter(renderer, scene)
-  enemy = new Enemy(renderer,scene,15, -70, -150,0)
-  enemy2 = new Enemy(renderer,scene,-50, -70, -100,1)
-  enemy3 = new Enemy(renderer,scene,15, -70, 100,0)
-  enemy4 = new Enemy(renderer,scene,15, -70, 150,5)
-  enemy5 = new Enemy(renderer,scene,15, -70, -100,5)
-  let light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.3);
-  light.position.set(0.5, 1, 0.75);
-  scene.add(light);
+  // enemy = new Enemy(renderer,scene,15, -70, -150,0)
+  // enemy2 = new Enemy(renderer,scene,-50, -70, -100,1)
+  // enemy3 = new Enemy(renderer,scene,15, -70, 100,0)
+  // enemy4 = new Enemy(renderer,scene,15, -70, 150,5)
+  // enemy5 = new Enemy(renderer,scene,15, -70, -100,5)
+  let ambientlight = new THREE.AmbientLight(0xffffff, 0.2);
+  ambientlight.position.set(0.5, 1, 0.75);
+  scene.add(ambientlight);
+
+  let light = new THREE.PointLight(0xffffff, 0.8, 18);
+	light.position.set(0.5, 1, 0.75);
+	light.castShadow = true;
+	light.shadow.camera.near = 0.1;
+	light.shadow.camera.far = 25;
+	scene.add(light);
 
   document.addEventListener("keydown", onKeyDown, false);
   document.addEventListener("keyup", onKeyUp, false);
