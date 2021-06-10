@@ -205,7 +205,6 @@ function loadEnemies() {
  
   if (enemies.length < 6) {
       enemies.push(new Enemy(renderer,scene, mainChar.camera.position.x + getRndInteger(-300,300), mainChar.camera.position.y - 70, mainChar.camera.position.z + getRndInteger(-300,300), 0))
-      
     // enemies.push(new Enemy(renderer,scene, mainChar.camera.position.x , mainChar.camera.position.y - 70, mainChar.camera.position.z -300, 0),
     // new Enemy(renderer,scene, mainChar.camera.position.x- 150, mainChar.camera.position.y - 70, mainChar.camera.position.z -200, .5),
     // new Enemy(renderer,scene, mainChar.camera.position.x- 250, mainChar.camera.position.y - 70, mainChar.camera.position.z -200, .5),
