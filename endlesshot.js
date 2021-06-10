@@ -106,12 +106,13 @@ function createScene(canvas) {
   // groundColor - (optional) hexadecimal color of the ground. Default is 0xffffff.
   // intensity - (optional) numeric value of the light's strength/intensity. Default is 1.
   mainChar = new MainCharacter(renderer, scene)
-  loader = new Loader(scene, objects);
+  loader = new Loader(scene, objects,renderer);
   enemy = new Enemy(renderer,scene,15, -70, -150,0)
   enemy2 = new Enemy(renderer,scene,-50, -70, -100,1)
   enemy3 = new Enemy(renderer,scene,15, -70, 100,0)
   enemy4 = new Enemy(renderer,scene,15, -70, 150,5)
   enemy5 = new Enemy(renderer,scene,15, -70, -100,5)
+
   let ambientlight = new THREE.AmbientLight(0xffffff, 0.2);
   ambientlight.position.set(0.5, 1, 0.75);
   scene.add(ambientlight);
@@ -127,7 +128,10 @@ function createScene(canvas) {
   document.addEventListener("keyup", onKeyUp, false);
 
   loader.loadScene(scene, objects);
-  loader.loadFBX(
+
+  //ASSETS
+  // TANK
+  loadFBX(
     "./models/US_Tank/US_Sherman_Tank.fbx",
     {
       position: new THREE.Vector3(-800, -74, -600),
@@ -135,79 +139,68 @@ function createScene(canvas) {
     },
     objects
   );
-
-  //ASSETS
-  // TANK
-  // loadFBX(
-  //   "./models/US_Tank/US_Sherman_Tank.fbx",
-  //   {
-  //     position: new THREE.Vector3(-800, -74, -600),
-  //     scale: new THREE.Vector3(0.65, 0.65, 0.65),
-  //   },
-  //   objects
-  // );
   // Method to load OBJ models
   //loadObj(objModel, {position: new THREE.Vector3(-8, 0, 0), scale: new THREE.Vector3(3, 3, 3), rotation: new THREE.Vector3(0, 1.58, 0) });
   
   loadEnemies();
 }
 
-// function setVectorValue(vector, configuration, property, initialValues) {
-//   if (configuration !== undefined) {
-//     if (property in configuration) {
-//       console.log("setting:", property, "with", configuration[property]);
-//       vector.set(
-//         configuration[property].x,
-//         configuration[property].y,
-//         configuration[property].z
-//       );
-//       return;
-//     }
-//   }
+function setVectorValue(vector, configuration, property, initialValues) {
+  if (configuration !== undefined) {
+    if (property in configuration) {
+      console.log("setting:", property, "with", configuration[property]);
+      vector.set(
+        configuration[property].x,
+        configuration[property].y,
+        configuration[property].z
+      );
+      return;
+    }
+  }
 
-//   console.log("setting:", property, "with", initialValues);
-//   vector.set(initialValues.x, initialValues.y, initialValues.z);
-// }
+  console.log("setting:", property, "with", initialValues);
+  vector.set(initialValues.x, initialValues.y, initialValues.z);
+}
 
-// async function loadFBX(fbxModelUrl, configuration, arr) {
-//   try {
-//     let object = await new FBXLoader().loadAsync(fbxModelUrl);
-//     console.log(object);
+async function loadFBX(fbxModelUrl, configuration, arr) {
+  try {
+    let object = await new FBXLoader().loadAsync(fbxModelUrl);
+    console.log(object);
     
-//     setVectorValue(
-//       object.position,
-//       configuration,
-//       "position",
-//       new THREE.Vector3(0, 0, 0)
-//     );
-//     setVectorValue(
-//       object.scale,
-//       configuration,
-//       "scale",
-//       new THREE.Vector3(1, 1, 1)
-//     );
-//     setVectorValue(
-//       object.rotation,
-//       configuration,
-//       "rotation",
-//       new THREE.Vector3(0, 0, 0)
-//     );
+    setVectorValue(
+      object.position,
+      configuration,
+      "position",
+      new THREE.Vector3(0, 0, 0)
+    );
+    setVectorValue(
+      object.scale,
+      configuration,
+      "scale",
+      new THREE.Vector3(1, 1, 1)
+    );
+    setVectorValue(
+      object.rotation,
+      configuration,
+      "rotation",
+      new THREE.Vector3(0, 0, 0)
+    );
 
-//     if (object.children.length > 0){
-//       object.children.forEach(chamaco => {
-//         if (chamaco.type == "Mesh"){
-//           arr.push(chamaco);
-//         }
-//       });
-//     }
+    if (object.children.length > 0){
+      object.children.forEach(chamaco => {
+        if (chamaco.type == "Mesh"){
+          arr.push(chamaco);
+        }
+      });
+    }
 
-//     arr.push(object);
+    arr.push(object);
 
-//     scene.add(object);
-//   } catch (err) {
-//     console.error(err);
-//   }
-// }
+    scene.add(object);
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 function loadEnemies() {
   /**

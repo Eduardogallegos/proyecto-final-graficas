@@ -1,4 +1,3 @@
-import { FBXLoader } from "../libs/three.js/r125/loaders/FBXLoader.js";
 import * as THREE from "../libs/three.js/r125/three.module.js";
 
 const floorUrl = "../images/metall010-new-tileable.png";
@@ -130,63 +129,6 @@ class Loader {
         scene.add(rampa);
         objects.push(rampa);
         
-    }
-    
-    loadFBX(fbxModelUrl, configuration, arr) {
-        try {
-          let object = new FBXLoader().loadAsync(fbxModelUrl);
-          console.log(object);
-          
-          this.setVectorValue(
-            object.position,
-            configuration,
-            "position",
-            new THREE.Vector3(0, 0, 0)
-          );
-          this.setVectorValue(
-            object.scale,
-            configuration,
-            "scale",
-            new THREE.Vector3(1, 1, 1)
-          );
-          this.setVectorValue(
-            object.rotation,
-            configuration,
-            "rotation",
-            new THREE.Vector3(0, 0, 0)
-          );
-      
-          if (object.children.length > 0){
-            object.children.forEach(chamaco => {
-              if (chamaco.type == "Mesh"){
-                arr.push(chamaco);
-              }
-            });
-          }
-      
-          arr.push(object);
-      
-          scene.add(object);
-        } catch (err) {
-          console.error(err);
-        }
-    }
-
-    setVectorValue(vector, configuration, property, initialValues) {
-        if (configuration !== undefined) {
-          if (property in configuration) {
-            console.log("setting:", property, "with", configuration[property]);
-            vector.set(
-              configuration[property].x,
-              configuration[property].y,
-              configuration[property].z
-            );
-            return;
-          }
-        }
-      
-        console.log("setting:", property, "with", initialValues);
-        vector.set(initialValues.x, initialValues.y, initialValues.z);
     }
 }
 
