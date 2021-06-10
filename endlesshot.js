@@ -44,7 +44,7 @@ function onKeyDown(event) {
       break;
 
     case 32: // space
-      mainChar.changeDirection(4)
+      mainChar.jump()
       duration = 2000;
       break;
     case 49:
@@ -86,7 +86,6 @@ function onKeyUp(event) {
       break;
     
     case 32: //space
-      mainChar.stopDirection(4);
       duration = 15000;
       break;
   }
