@@ -18,13 +18,7 @@ class Enemy {
       this.x = 0;
       this.y = 0;
       this.z = 0 
-      //this.initPointerLock();
-   
-    
-      //this.drawEnemy(this.enemies, 15, -70, -500,0);
-      // this.drawEnemy(100, -70, -400,0);
-      // this.drawEnemy(-100, -70, -400,0);
-     
+      
       this.loadFBX(
         "../models/US_Tank_Crew.fbx",
           {
@@ -34,28 +28,16 @@ class Enemy {
           }
       );
 
-      // let container = document.getElementById("container")
-      // container.addEventListener("scroll", this.changeWeapon, false);
-      // container.addEventListener("click", this.attack, false);
+      
     }
    
-    // drawEnemy(array,x,y,z,rot){
-    //     this.loadFBX(
-    //       "../models/US_Tank_Crew.fbx",
-    //           {
-    //           position: new THREE.Vector3(x,y,z),
-    //           scale: new THREE.Vector3(.2, .2, .2),
-    //           rotation: new THREE.Vector3(0,rot,0),
-    //           },
-    //          array
-    //       );
-         
-    // }
-
+    
+    // saca enemigos del grupo
     destroy(){
       this.enemyGroup.remove(enemyGroup.children);
     }
-    
+
+    // pone posicion nueva de enemigos en cuanto a la camara
     setPosition(x,y,z){
       this.enemyGroup.position.set(x,y,z)
     }
@@ -92,8 +74,7 @@ async loadFBX(fbxModelUrl, configuration, ) {
       let object = await new FBXLoader().loadAsync(fbxModelUrl);
       console.log(object)
 
-    //   object.castShadow = true;
-    //     object. receiveShadow = true;
+
 
     object.mixer = new THREE.AnimationMixer( this.scene );
         
