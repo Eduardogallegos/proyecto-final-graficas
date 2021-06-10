@@ -106,6 +106,7 @@ function createScene(canvas) {
   // intensity - (optional) numeric value of the light's strength/intensity. Default is 1.
   mainChar = new MainCharacter(renderer, scene)
   loader = new Loader(scene,objects);
+
   let ambientlight = new THREE.AmbientLight(0xffffff, 0.2);
   ambientlight.position.set(0.5, 1, 0.75);
   scene.add(ambientlight);
