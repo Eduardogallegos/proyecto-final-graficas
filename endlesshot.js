@@ -202,30 +202,36 @@ function loadEnemies() {
    * Until now keep it as 1 enemy
    */
  
-  if (!enemies.length) {
-    enemies.push(new Enemy(renderer,scene, mainChar.camera.position.x , mainChar.camera.position.y - 70, mainChar.camera.position.z -300, 0),
-    new Enemy(renderer,scene, mainChar.camera.position.x- 150, mainChar.camera.position.y - 70, mainChar.camera.position.z -200, .5),
-    new Enemy(renderer,scene, mainChar.camera.position.x- 250, mainChar.camera.position.y - 70, mainChar.camera.position.z -200, .5),
-    new Enemy(renderer,scene, mainChar.camera.position.x + 250, mainChar.camera.position.y - 70, mainChar.camera.position.z -200, -1));
-    console.log(enemies);
+  if (enemies.length < 6) {
+      enemies.push(new Enemy(renderer,scene, mainChar.camera.position.x + getRndInteger(-300,300), mainChar.camera.position.y - 70, mainChar.camera.position.z + getRndInteger(-300,300), 0))
+      
+    // enemies.push(new Enemy(renderer,scene, mainChar.camera.position.x , mainChar.camera.position.y - 70, mainChar.camera.position.z -300, 0),
+    // new Enemy(renderer,scene, mainChar.camera.position.x- 150, mainChar.camera.position.y - 70, mainChar.camera.position.z -200, .5),
+    // new Enemy(renderer,scene, mainChar.camera.position.x- 250, mainChar.camera.position.y - 70, mainChar.camera.position.z -200, .5),
+    // new Enemy(renderer,scene, mainChar.camera.position.x + 250, mainChar.camera.position.y - 70, mainChar.camera.position.z -200, -1));
+    // console.log(enemies);
   }
 
+}
+
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min) ) + min;
 }
 
 function update() {
   requestAnimationFrame(update);
   // actualiza posicion de enemigos en cuanto a la camara del jugador 
-  if(mainChar.moveBackward  || mainChar.moveLeft || mainChar.moveRight){
-    // for (const enemy of enemies) {
-    //   enemies[2].updatePosition(mainChar.camera.position.x , mainChar.camera.position.y - 70, mainChar.camera.position.z -400, 0);
-    // } 
-    let i;
-    for (i = 0; i < enemies.length; i++) {
-      enemies[i].setPosition(mainChar.camera.position.x,mainChar.camera.position.y,mainChar.camera.position.z);
-    }
+  // if(mainChar.moveBackward  || mainChar.moveLeft || mainChar.moveRight){
+  //   // for (const enemy of enemies) {
+  //   //   enemies[2].updatePosition(mainChar.camera.position.x , mainChar.camera.position.y - 70, mainChar.camera.position.z -400, 0);
+  //   // } 
+  //   let i;
+  //   for (i = 0; i < enemies.length; i++) {
+  //     enemies[i].setPosition(mainChar.camera.position.x,mainChar.camera.position.y,mainChar.camera.position.z);
+  //   }
 
 
-  }
+  // }
 
   if (mainChar.areControlsLocked()) {
     // Manage enemies
@@ -233,6 +239,8 @@ function update() {
     //for (const enemy of enemies) if (enemy) Enemy.update(enemy);
     mainChar.update(objects, enemies);
   }
+
+  loadEnemies();
 }
 
 
@@ -259,3 +267,6 @@ window.onload = () => {
 };
 
 window.addEventListener("resize", resize, false);
+
+
+
