@@ -20,13 +20,6 @@ class MainCharacter {
     15
   );
 
-  raycasterWalls = new THREE.Raycaster(
-    new THREE.Vector3(),
-    new THREE.Vector3(),
-    0,
-    this.wallDistance + 0.1
-  );
-
   frontRaycaster = new THREE.Raycaster(
     new THREE.Vector3(),
     new THREE.Vector3(0,0,-1),
@@ -103,21 +96,6 @@ class MainCharacter {
     this.downRaycaster.ray.origin.copy(this.controls.getObject().position);
     this.downRaycaster.ray.origin.y -= 40;
     let downintersections = this.downRaycaster.intersectObjects(objects);
-
-    
-    // let dirCopy = new THREE.Vector3().copy(this.direction);
-    // // console.log(dirCopy);
-    // let vectorDir = dirCopy.applyMatrix4(new THREE.Matrix4().extractRotation(this.controls.getObject().matrix)).normalize();
-    // //console.log (vectorDir);
-    
-    // this.raycasterWalls.ray.origin.copy(this.controls.getObject().position);
-    // this.raycasterWalls.ray.direction.copy(vectorDir);
-    // let intersectionWalls = this.raycasterWalls.intersectObjects(objects);
-
-    // if ( this.moveForward && !(dirCopy.z!== 0 && intersectionWalls.length >= 1)) this.controls.getObject().translateZ(-this.playerSpeed * delta * 50);
-    // if ( this.moveBackward && !(dirCopy.z!==0 && intersectionWalls.length >= 1)) this.controls.getObject().translateZ(this.playerSpeed * delta * 50);
-    // if ( this.moveLeft && !(dirCopy.x!==0 && intersectionWalls.length >= 1)) this.controls.getObject().translateX(-this.playerSpeed * delta * 50);
-    // if ( this.moveRight && !(dirCopy.x!==0 && intersectionWalls.length >= 1)) this.controls.getObject().translateX(this.playerSpeed * delta * 50);
     
     this.pointingDirection = this.controls.getDirection(new THREE.Vector3()); //forward 0,0,-1
     
