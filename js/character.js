@@ -63,6 +63,7 @@ class MainCharacter {
   weaponsGroup = new THREE.Object3D();
   bulletsGroup = new THREE.Object3D();
   actualWeapon = new Knife(this.weaponsGroup);
+  bullets = [];
 
   constructor(renderer, scene) {
     this.scene = scene;
@@ -81,7 +82,7 @@ class MainCharacter {
     );
   }
 
-  update(objects) {
+  update(objects, enemies) {
 
     let time = Date.now();
     let delta = (time - this.prevTime) / 800;
@@ -166,8 +167,23 @@ class MainCharacter {
     this.characterGroup.position.set(this.camera.position.x, this.camera.position.y, this.camera.position.z);
     this.prevTime = time;
     this.renderer.render(this.scene, this.camera);
+    this.bullets.forEach(bullet=>{
+      bullet.update(2);
+      let sceneIntersects = bullet.raycaster.intersectObjects(objects);
+      // let enemyIntersects = bullet.raycaster.intersectObjects(enemies);
+      let sceneBump = sceneIntersects.length > 0;
+      // let enemyBump = enemyIntersects.lenght > 0;
 
-    
+      if (sceneBump === true){
+        this.bullets.splice(this.bullets.indexOf(bullet), 1);
+        bullet.bulletGroup.children = [];
+      }
+      /* if (enemyBump === true){
+        this.bullets.splice(this.bullets.indexOf(bullet), 1);
+        let deadEnemy = enemyIntersects[0].object;
+        enemies[enemies.indexOf(deadEnemy)].die();
+      } */
+    });
   }
 
   resize(canvasWidth, canvasHeight) {
@@ -177,12 +193,12 @@ class MainCharacter {
 
   drawPointer() {
     let pointerGeometry = new THREE.SphereGeometry(0.01, 32, 32);
-    let pointerMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    let pointerMaterial = new THREE.MeshBasicMaterial({ color: 0x2a9f17 });
     let pointer = new THREE.Mesh(pointerGeometry, pointerMaterial);
     let pointerGroup = new THREE.Object3D();
     pointerGroup.add(pointer);
     pointerGroup.position.set(
-      0, 0, -2
+      0, -0.01, -2
     )
     this.camera.add(pointerGroup);
   }
@@ -240,9 +256,9 @@ class MainCharacter {
 
   attack(event) {
     if (this.actualWeapon.type != "knife"){
-      this.actualWeapon.attack(event, this.scene, this.camera.position);
+      this.actualWeapon.attack(event, this.scene, this.camera.position, this.bullets, this.controls.getDirection(new THREE.Vector3()));
     }else{
-      this.actualWeapon.attack(event);
+      this.actualWeapon.attack(event, this.controls.getDirection(new THREE.Vector3()));
     }
     
   }

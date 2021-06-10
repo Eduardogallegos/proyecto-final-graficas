@@ -7,8 +7,7 @@ import { Loader } from "./js/loader.js";
 let scene,
   renderer,
   mainChar,
-  loader,
-  enemy,enemy2,enemy3,enemy4,enemy5;
+  enemy, enemy2,enemy3, enemy4;
 
 let objects = [],
   enemies = [];
@@ -106,13 +105,12 @@ function createScene(canvas) {
   // groundColor - (optional) hexadecimal color of the ground. Default is 0xffffff.
   // intensity - (optional) numeric value of the light's strength/intensity. Default is 1.
   mainChar = new MainCharacter(renderer, scene)
-  loader = new Loader(scene, objects,renderer);
-  enemy = new Enemy(renderer,scene,15, -70, -150,0)
-  enemy2 = new Enemy(renderer,scene,-50, -70, -100,1)
-  enemy3 = new Enemy(renderer,scene,15, -70, 100,0)
-  enemy4 = new Enemy(renderer,scene,15, -70, 150,5)
-  enemy5 = new Enemy(renderer,scene,15, -70, -100,5)
 
+  // enemy = new Enemy(renderer,scene,15, -70, -150,0)
+  // enemy2 = new Enemy(renderer,scene,-50, -70, -100,1)
+  // enemy3 = new Enemy(renderer,scene,15, -70, 100,0)
+  // enemy4 = new Enemy(renderer,scene,15, -70, 150,5)
+  // enemy5 = new Enemy(renderer,scene,15, -70, -100,5)
   let ambientlight = new THREE.AmbientLight(0xffffff, 0.2);
   ambientlight.position.set(0.5, 1, 0.75);
   scene.add(ambientlight);
@@ -202,6 +200,7 @@ async function loadFBX(fbxModelUrl, configuration, arr) {
   }
 }
 
+//carga 4 enemigos en posiciones distintas
 function loadEnemies() {
   /**
    * Function called on every frame to keep the number of enemies on the scene
@@ -209,8 +208,10 @@ function loadEnemies() {
    */
  
   if (!enemies.length) {
-    
-    enemies.push(enemy,enemy2,enemy3,enemy4,enemy5);
+    enemies.push(new Enemy(renderer,scene, mainChar.camera.position.x , mainChar.camera.position.y - 70, mainChar.camera.position.z -300, 0),
+    new Enemy(renderer,scene, mainChar.camera.position.x- 150, mainChar.camera.position.y - 70, mainChar.camera.position.z -200, .5),
+    new Enemy(renderer,scene, mainChar.camera.position.x- 250, mainChar.camera.position.y - 70, mainChar.camera.position.z -200, .5),
+    new Enemy(renderer,scene, mainChar.camera.position.x + 250, mainChar.camera.position.y - 70, mainChar.camera.position.z -200, -1));
     console.log(enemies);
   }
 
@@ -218,12 +219,24 @@ function loadEnemies() {
 
 function update() {
   requestAnimationFrame(update);
+  // actualiza posicion de enemigos en cuanto a la camara del jugador 
+  if(mainChar.moveForward || mainChar.moveBackward  || mainChar.moveLeft || mainChar.moveRight){
+    // for (const enemy of enemies) {
+    //   enemies[2].updatePosition(mainChar.camera.position.x , mainChar.camera.position.y - 70, mainChar.camera.position.z -400, 0);
+    // } 
+    let i;
+    for (i = 0; i < enemies.length; i++) {
+      enemies[i].setPosition(mainChar.camera.position.x,mainChar.camera.position.y,mainChar.camera.position.z);
+    }
+
+
+  }
 
   if (mainChar.areControlsLocked()) {
     // Manage enemies
     // loadEnemies;
     //for (const enemy of enemies) if (enemy) Enemy.update(enemy);
-    mainChar.update(objects);
+    mainChar.update(objects, enemies);
   }
 }
 
