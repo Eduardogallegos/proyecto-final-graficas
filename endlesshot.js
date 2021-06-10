@@ -323,7 +323,14 @@ function loadEnemies() {
 function update() {
   requestAnimationFrame(update);
   if(mainChar.changeDirection()){
-    
+    // for (const enemy of enemies) {
+    //   enemies[2].updatePosition(mainChar.camera.position.x , mainChar.camera.position.y - 70, mainChar.camera.position.z -400, 0);
+    // } 
+    for (i = 0; i < enemies.length; i++) {
+      enemies[i].updatePosition(renderer,scene,mainChar.camera.position.x , mainChar.camera.position.y - 70, mainChar.camera.position.z -400, 0);
+      //enemy = new Enemy(renderer,scene, mainChar.camera.position.x , mainChar.camera.position.y - 70, mainChar.camera.position.z -400, 0);
+    } 
+
   }
 
   if (mainChar.areControlsLocked()) {

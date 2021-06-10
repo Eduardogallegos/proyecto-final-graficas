@@ -52,7 +52,8 @@ class Enemy {
          
     // }
 
-    updatepPosition(){
+    updatePosition(renderer,scene,x,y,z){
+      new Enemy(renderer,scene,x,y,z,rot)
       
     }
     static update(enemy) {
