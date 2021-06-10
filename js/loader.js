@@ -29,7 +29,7 @@ class Loader {
         let wall1 = new THREE.Mesh(
             wallGeometry,
             new THREE.MeshPhongMaterial({
-                color: 0xff0000 //red
+                color: 0x0000000 //BLACK
             })
         );
 
@@ -41,8 +41,8 @@ class Loader {
         let wall2 = new THREE.Mesh(
             wallGeometry,
             new THREE.MeshPhongMaterial({
-                color: 0xceeff00 //yellow
-            })
+                color: 0x0000000 //BLACK
+            })               
         );
 
         wall2.rotation.y = Math.PI;
@@ -54,7 +54,7 @@ class Loader {
         let wall3 = new THREE.Mesh(
             wallGeometry,
             new THREE.MeshPhongMaterial({
-                color: 0x00ff0d //green
+                color: 0x0000000 //BLACK
             })
         );
 
@@ -67,7 +67,7 @@ class Loader {
         let wall4 = new THREE.Mesh(
             wallGeometry,
             new THREE.MeshPhongMaterial({
-                color: 0x0400ff //blue
+                color: 0x0000000 //BLACK
             })
         );
 
@@ -76,20 +76,21 @@ class Loader {
         scene.add(wall4);
         objects.push(wall4);
 
-        //BOC
-        let boxGeometry = new THREE.BoxGeometry(50, 50, 50);
+        //BOX
+        let boxGeometry = new THREE.BoxGeometry(50, 80, 50);
         let cubeMap = new THREE.TextureLoader().load(cubeUrl);
 
-        let boxMaterial = new THREE.MeshPhongMaterial({
-            specular: 0xffffff,
-            flatShading: true,
-            map: cubeMap
-        });
-        let box = new THREE.Mesh(boxGeometry, boxMaterial);
-        box.position.set(0, -10, 0);
+        for ( let i = 0; i < 50; i ++ ) {
+            let boxMaterial = new THREE.MeshPhongMaterial( { specular: 0xffffff, flatShading: true, map:cubeMap } );
 
-        scene.add(box);
-        objects.push(box);
+            let box = new THREE.Mesh( boxGeometry, boxMaterial );
+            box.position.x = Math.floor( Math.random() * 1000);
+            box.position.y = -30;
+            box.position.z = Math.floor( Math.random() * 900 );
+
+            scene.add( box );
+            objects.push( box );
+        }   
 
         // COLUMNA CON CYLINDER GEOMETRY
         let geometryColumn = new THREE.CylinderGeometry(100, 100, 225, 32);
@@ -101,6 +102,13 @@ class Loader {
         column.position.set(-550, 43, -800);
         scene.add(column);
         objects.push(column);
+
+        let geometryColumn2 = new THREE.CylinderGeometry(100, 100, 190, 32);
+        let column2 = new THREE.Mesh(geometryColumn2, materialStructure);
+
+        column2.position.set(-900, 23, 0);
+        scene.add(column2);
+        objects.push(column2);
 
         //HIGH HGROUND
         let geometryHighGround = new THREE.BoxGeometry(200, 225, 178);
@@ -121,14 +129,21 @@ class Loader {
         //let testMaterial = new THREE.MeshBasicMaterial ( { color: 0xebeb34 })
 
         //RAMPA
-        let geometryRampa = new THREE.BoxGeometry(200, 400, 50);
+        let geometryRampa = new THREE.BoxGeometry(400, 400, 50);
         let rampa = new THREE.Mesh(geometryRampa, materialStructure);
 
-        rampa.position.set(900, 39, -688);
+        rampa.position.set(950, 39, -688);
         rampa.rotation.x = (-61.5 * Math.PI) / 180;
         scene.add(rampa);
         objects.push(rampa);
+
+        //PLATAFORMA
+        let geometryPlataform = new THREE.BoxGeometry(100,20,50);
+        let platform = new THREE.Mesh(geometryPlataform, materialStructure);
         
+        platform.position.set(-750,0,0)
+        scene.add(platform);
+        objects.push(platform);
     }
 }
 

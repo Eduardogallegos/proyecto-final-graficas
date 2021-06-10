@@ -128,8 +128,19 @@ function createScene(canvas) {
   loadFBX(
     "./models/US_Tank/US_Sherman_Tank.fbx",
     {
-      position: new THREE.Vector3(-800, -74, -600),
+      position: new THREE.Vector3(-760, -74, -690),
       scale: new THREE.Vector3(0.65, 0.65, 0.65),
+      rotation: new THREE.Vector3(0,0.6,0),
+    },
+    objects
+  );
+
+  loadFBX(
+    "./models/US_Tank/US_Sherman_Tank.fbx",
+    {
+      position: new THREE.Vector3(-800, -74, 600),
+      scale: new THREE.Vector3(0.65, 0.65, 0.65),
+      rotation: new THREE.Vector3(0,3,0),
     },
     objects
   );
